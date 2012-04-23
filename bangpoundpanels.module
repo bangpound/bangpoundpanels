@@ -2,6 +2,8 @@
 
 /**
  * Implementation of hook_init()
+ *
+ * @todo move to style plugin.
  */
 function bangpoundpanels_init() {
   drupal_add_library('system', 'ui.accordion');
@@ -20,7 +22,7 @@ function bangpoundpanels_contextual_links_view_alter(&$element, &$items) {
     }
   }
 
-  // Add contextual link to edit mini block content. INSECURE.
+  // Add contextual link to edit mini block content.
   if (isset($element['#element']['#block']) && $element['#element']['#block']->module == 'panels_mini' && user_access('administer mini panels')) {
     $element['#links']['panels_mini-edit'] = array(
       'title' => 'Edit panel',
