@@ -13,3 +13,4 @@ This module takes excellent work from [Panopoly](http://drupal.org/project/panop
   see [Panels Tabs](http://drupalcode.org/project/panels_tabs.git/tree/refs/heads/7.x-1.x)
   for a better way).
 * Contextual links to edit an entity's fields and its view mode display settings.
+* No markup is default on all new panel displays and panes.
