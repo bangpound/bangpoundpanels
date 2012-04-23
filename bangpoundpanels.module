@@ -173,9 +173,8 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'panels_edit_style_type_form') {
 
     // Unset options for which we have no need
-    //unset($form['style']['#options']['block']);
+    unset($form['style']['#options']['block']);
     unset($form['style']['#options']['rounded_corners']);
-    //unset($form['style']['#options']['naked']);
 
     // Set "no style" to be the default style
     $form['style']['#options']['default'] = t('Default Pane Style');
