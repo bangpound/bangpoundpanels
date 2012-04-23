@@ -368,24 +368,6 @@ function bangpoundpanels_autocomplete_content($node_type, $string) {
 }
 
 /**
- * Preprocess the panels_ipe_toolbar to change text for IPE buttons
- */
-function bangpoundpanels_preprocess_panels_ipe_toolbar(&$vars) {
-  foreach($vars['buttons'] as $panel_context_id => $panel_context) {
-    foreach($panel_context as $button_name => $button) {
-      switch($button_name) {
-        case 'panels-ipe-startedit':
-          $vars['buttons'][$panel_context_id][$button_name]['#title'] = 'Customize this page';
-          break;
-        case 'panels-ipe-change-layout':
-          $vars['buttons'][$panel_context_id][$button_name]['#title'] = 'Change this layout';
-          break;
-      }
-    }
-  }
-}
-
-/**
  * Preprocess the panels_add_content_modal() function to add the HTML for the preview
  */
 function bangpoundpanels_preprocess_panels_add_content_modal(&$vars) {
