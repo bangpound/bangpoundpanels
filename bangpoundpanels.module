@@ -420,49 +420,14 @@ function bangpoundpanels_process_panels_add_content_modal(&$vars) {
  * @todo add this to supported theme functions in registry.
  * @see entity_view_mode.module
  */
-function bangpoundpanels_preprocess(&$variables, $hook) {
+function bangpoundpanels_template_suggest_view_mode(&$variables, $hook) {
 
-  // This is true for most cases.
-  $root = $entity_type = $hook;
-
-  switch ($hook) {
-
-    case 'node':
-      $entity = $variables['node'];
-      $view_mode = $variables['view_mode'];
-      break;
-
-    // User profile is a theme for user entities. The entity itself is buried in the
-    // render element.
-    case 'user_profile':
-      $entity_type = 'user';
-      $entity = $variables['elements']['#account'];
-      $view_mode = $variables['elements']['#view_mode'];
-      break;
-
-    case 'taxonomy_term':
-      $entity_type = 'taxonomy_term';
-      $entity = $variables['term'];
-      $view_mode = $variables['view_mode'];
-      break;
-
-    case 'comment':
-      $entity = $variables['comment'];
-      $view_mode = $variables['elements']['#view_mode'];
-      break;
-
-    case 'file_entity':
-      $entity_type = 'file';
-
-      // file_entity module's theme uses 'file' as template name.
-      $root = 'file';
-      $entity = $variables['file'];
-      $view_mode = $variables['view_mode'];
-      break;
-
-    default:
-      return;
-  }
+  $hooks = theme_get_registry(FALSE);
+  $entity_key = $hooks[$hook]['entity key'];
+  $render_element = $variables[$hooks[$hook]['render element']];
+  $entity = $render_element[$entity_key];
+  $entity_type = $render_element['#entity_type'];
+  $view_mode = $render_element['#view_mode'];
 
   $suggestions = &$variables['theme_hook_suggestions'];
   list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
@@ -472,27 +437,54 @@ function bangpoundpanels_preprocess(&$variables, $hook) {
   $settings = field_view_mode_settings($entity_type, $bundle);
 
   // Ensure the base suggestions exist and if not, add them.
-  if (!empty($info['entity keys']['bundle']) && !in_array("{$root}__{$bundle}", $suggestions)) {
+  if (!empty($info['entity keys']['bundle']) && !in_array("{$entity_type}__{$bundle}", $suggestions)) {
     // The entity-type__bundle suggestion is typically "first".
-    array_unshift($suggestions, "{$root}__{$bundle}");
+    array_unshift($suggestions, "{$entity_type}__{$bundle}");
   }
-  if (!in_array("{$root}__{$id}", $suggestions)) {
+  if (!in_array("{$entity_type}__{$id}", $suggestions)) {
     // The entity-type__id suggestion is always "last".
-    array_push($suggestions, "{$root}__{$id}");
+    array_push($suggestions, "{$entity_type}__{$id}");
   }
 
   if (isset($settings[$view_mode]) && $settings[$view_mode]['custom_settings']) {
     // Add view mode suggestions based on the location of the base suggestions.
-    if (!in_array("{$root}__{$view_mode}", $suggestions)) {
-      array_unshift($suggestions, "{$root}__{$view_mode}");
+    if (!in_array("{$entity_type}__{$view_mode}", $suggestions)) {
+      array_unshift($suggestions, "{$entity_type}__{$view_mode}");
     }
-    if (!empty($info['entity keys']['bundle']) && !in_array("{$root}__{$bundle}__{$view_mode}", $suggestions)) {
-      $index = array_search("{$root}__{$bundle}", $suggestions);
-      array_splice($suggestions, $index + 1, 0, "{$root}__{$bundle}__{$view_mode}");
+    if (!empty($info['entity keys']['bundle']) && !in_array("{$entity_type}__{$bundle}__{$view_mode}", $suggestions)) {
+      $index = array_search("{$entity_type}__{$bundle}", $suggestions);
+      array_splice($suggestions, $index + 1, 0, "{$entity_type}__{$bundle}__{$view_mode}");
     }
-    if (!in_array("{$root}__{$id}__{$view_mode}", $suggestions)) {
-      $index = array_search("{$root}__{$id}", $suggestions);
-      array_splice($suggestions, $index + 1, 0, "{$root}__{$id}__{$view_mode}");
+    if (!in_array("{$entity_type}__{$id}__{$view_mode}", $suggestions)) {
+      $index = array_search("{$entity_type}__{$id}", $suggestions);
+      array_splice($suggestions, $index + 1, 0, "{$entity_type}__{$id}__{$view_mode}");
     }
   }
+}
+
+/**
+ * Implement hook_theme_registry_alter().
+ *
+ * There's no consistent way to find an entity in the theme stack. To avoid conflicts, all
+ * entity themes in the registry are annotated with the name of the entity's key in the
+ * render element array. The preprocess function is only added to specific theme entities.
+ *
+ * Currently all entities are themed with a render element instead of variables.
+ * field_attach_view() adds entity type and bundle info to the render elements.
+ */
+function bangpoundpanels_theme_registry_alter(&$theme_registry) {
+  $theme_registry['node']['entity key'] = '#node';
+  $theme_registry['node']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+
+  $theme_registry['user_profile']['entity key'] = '#account';
+  $theme_registry['user_profile']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+
+  $theme_registry['file_entity']['entity key'] = '#file';
+  $theme_registry['file_entity']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+
+  $theme_registry['comment']['entity key'] = '#comment';
+  $theme_registry['comment']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+
+  $theme_registry['taxonomy_term']['entity key'] = '#term';
+  $theme_registry['taxonomy_term']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
 }
