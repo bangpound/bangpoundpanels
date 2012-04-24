@@ -5,9 +5,76 @@ $plugin = array(
   'title' => t('Accordion style'),
   'description' => t('Display panes as accordion.'),
   'render region' => 'bangpoundpanels_accordion_style_render_region',
+  'render pane' => 'panels_pane__accordion',
   'settings form' => 'bangpoundpanels_accordion_style_settings_form',
+  'hook theme' => 'bangpoundpanels_accordion_theme',
   'weight' => -15,
 );
+
+/**
+ * Plugin's hook theme.
+ *
+ * Sets a template for the new pane theme.
+ */
+function bangpoundpanels_accordion_theme(&$theme, $data) {
+  $theme['panels_pane__accordion']['template'] = 'panels-pane--accordion';
+}
+
+/**
+ * Preprocess accordion pane.
+ *
+ * @see template_preprocess_panels_pane().
+ */
+function template_preprocess_panels_pane__accordion(&$variables, $hook) {
+
+  $content = $variables['content'];
+
+  if (!empty($content->css_id)) {
+    $css_id = drupal_html_id($content->css_id);
+    $variables['attributes']['id'] = $css_id;
+  }
+  else {
+    $css_id = drupal_html_id($variables['pane']->panel);
+  }
+
+  template_preprocess_panels_pane($variables);
+
+  $title = $content->title;
+  if (empty($content->title)) {
+    $title = t('Tab @delta', array('@delta' => $delta));
+  }
+  else if (!empty($content->title_link)) {
+    $title = filter_xss($content->title, array());
+  }
+  else if (!empty($content->title_array)) {
+    $title = $content->title_array['#title'];
+  }
+
+  $variables['title'] = array(
+    '#type' => 'link',
+    '#title' => $title,
+    '#href' => '#'. $css_id,
+    '#options' => array(
+      'absolute' => TRUE,
+      'external' => TRUE,
+    ),
+  );
+
+  $variables['title'] = render($variables['title']);
+
+  if (!isset($variables['attributes']['class'])) {
+    $variables['attributes']['class'] = array();
+  }
+
+  if (!empty($variables['classes_array'])) {
+    $variables['attributes']['class'] = array_merge_recursive($variables['attributes']['class'], $variables['classes_array']);
+  }
+
+  if (!empty($variables['attributes'])) {
+    $variables['content_attributes_array'] = array_merge_recursive($variables['content_attributes_array'], $variables['attributes']);
+  }
+
+}
 
 /**
  * Render callback.
@@ -23,43 +90,14 @@ function theme_bangpoundpanels_accordion_style_render_region($vars) {
   $settings = $vars['settings'];
 
   if (empty($display->css_id) ) {
-  	$region_id = 'accordion-panels-' . $region_id ;
+  	$region_id = drupal_html_id('accordion-panels-' . $region_id);
   } else {
-  	$region_id = 'accordion-' . $display->css_id ;
+  	$region_id = drupal_html_id('accordion-' . $display->css_id);
   }
 
   $output = '';
-  $output .= '<div id="'. $region_id .'" class="region region-' . $vars['region_id'] . '">';
-
-  $items = array();
-  $delta = 1;
-  foreach ($display->panels[$vars['region_id']] as $pane_id) {
-    // Make sure the pane exists.
-    if (!empty($panes[$pane_id])) {
-      $title = bangpoundpanels_pane_titles($display->did, $pane_id);
-
-      if (!is_array($title)) {
-        $title = array(
-          '#type' => 'link',
-          '#title' => $title,
-          '#href' => '#',
-          '#options' => array(
-            'absolute' => TRUE,
-            'external' => TRUE,
-          ),
-        );
-      }
-
-      $output .= '<h3 class="pane-title">';
-      $output .= $title ? render($title) : t('Tab @delta', array('@delta' => $delta));
-      $output .= '</h3>';
-      $output .= '<div>';
-      $output .= $panes[$pane_id];
-      $output .= '</div>';
-      ++$delta;
-    }
-  }
-
+  $output .= '<div id="'. $region_id .'">';
+  $output .= implode($panes);
   $output .= '</div>';
 
   $settings['header'] = '.pane-title';

@@ -534,6 +534,7 @@ function bangpoundpanels_panels_pane_content_alter(&$content, $pane, $args, $con
   }
 
   if (in_array($cache[$pane->did][$pane->panel], array('tabs', 'accordion'))) {
+    $pane->style['style'] = $cache[$pane->did][$pane->panel];
 
     // Capture the title.
     if (!empty($content->title_link)) {
