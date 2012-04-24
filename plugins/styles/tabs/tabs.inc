@@ -10,6 +10,7 @@
 $plugin = array(
   'title' => t('Tabs'),
   'description' => t('Show panel panes in a region as tabs.'),
+  'render pane' => 'panels_naked_style_render_pane',
   'render region' => 'bangpoundpanels_tabs_style_render_region',
 );
 
