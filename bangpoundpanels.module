@@ -44,7 +44,7 @@ function bangpoundpanels_menu_alter(&$items) {
 }
 
 /**
- * Implement hook_custom_schema_alter().
+ * Implement hook_schema_alter().
  */
 function bangpoundpanels_schema_alter(&$schema) {
   if (module_exists('panels')) {
@@ -96,9 +96,10 @@ function bangpoundpanels_menu() {
  */
 function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
 
-  // Add a custom preview to the content type edit form and style edit form. This is applied in all cases, except for cases where
-  // we are customizing an entity (i.e. fieldable panels panes) because we cannot reliable regenerate a preview without saving the
-  // entity first.
+  // Add a custom preview to the content type edit form and style edit form. This is
+  // applied in all cases, except for cases where we are customizing an entity (i.e.
+  // fieldable panels panes) because we cannot reliable regenerate a preview without
+  // saving the entity first.
   if (variable_get('bangpoundpanels_preview', FALSE) && (strpos($form_id, '_content_type_edit_form') && $form_id != 'fieldable_panels_panes_fieldable_panels_pane_content_type_edit_form') || $form_id == 'panels_edit_style_type_form') {
 
     // Start the magic
@@ -119,8 +120,9 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
     }
 
     // Determine the configuration
-    // TODO - if a cleverer person can save the entity and get a vuuid, then we can pass that
-    // as a "uuid:asds-adsa-dsad-adsd-adda-adssd" subtype and it all works wonderfully.
+    // TODO - if a cleverer person can save the entity and get a vuuid, then we can pass
+    // that as a "uuid:asds-adsa-dsad-adsd-adda-adssd" subtype and it all works
+    // wonderfully.
     $configuration = ($form_state['rebuild'] && strpos($form_id, 'content_type_edit_form')) ? $form_state['input'] : $pane->configuration;
 
     // Determine the content
