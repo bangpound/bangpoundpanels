@@ -52,8 +52,28 @@ function theme_bangpoundpanels_tabs_style_render_region($vars) {
     // Make sure the pane exists.
     if (!empty($panes[$pane_id])) {
       $title = bangpoundpanels_pane_titles($display->did, $pane_id);
-      $title = $title ? render($title) : t('Tab @delta', array('@delta' => $delta));
-      $items[] = '<a href="#'. $tab_id . '-' . $delta .'">' . $title . '</a>';
+      $title = $title ? $title : t('Tab @delta', array('@delta' => $delta));
+
+      if (is_array($title) && isset($title['#markup'])) {
+        $title = filter_xss(render($title), array());
+      }
+      if (!is_array($title)) {
+        $title = array(
+          '#type' => 'link',
+          '#title' => $title,
+          '#href' => '#'. $tab_id .'-'. $delta,
+          '#options' => array(
+            'absolute' => TRUE,
+            'external' => TRUE,
+          ),
+        );
+      }
+      else if (is_array($title) && isset($title['#type']) && $title['#type'] == 'link') {
+        $title['#href'] = '#'. $tab_id .'-'. $delta;
+        $title['#options']['absolute'] = TRUE;
+        $title['#options']['external'] = TRUE;
+      }
+      $items[] = render($title);
       ++$delta;
     }
   }
