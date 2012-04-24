@@ -4,8 +4,8 @@
 $plugin = array(
   'title' => t('Accordion style'),
   'description' => t('Display panes as accordion.'),
-  'render region' => 'panopoly_theme_panopoly_accordion_style_render_region',
-  'settings form' => 'panopoly_theme_panopoly_accordion_style_settings_form',
+  'render region' => 'bangpoundpanels_accordion_style_render_region',
+  'settings form' => 'bangpoundpanels_accordion_style_settings_form',
   'weight' => -15,
 );
 
@@ -14,7 +14,7 @@ $plugin = array(
  *
  * @ingroup themeable
  */
-function theme_panopoly_theme_panopoly_accordion_style_render_region($vars) {
+function theme_bangpoundpanels_accordion_style_render_region($vars) {
 
   // Include Some Basic Information
   $display = $vars['display'];
@@ -23,34 +23,55 @@ function theme_panopoly_theme_panopoly_accordion_style_render_region($vars) {
   $settings = $vars['settings'];
 
   if (empty($display->css_id) ) {
-  	$regionId = 'accordion-panels-' . $region_id ;
+  	$region_id = 'accordion-panels-' . $region_id ;
   } else {
-  	$regionId = 'accordion-' . $display->css_id ;
+  	$region_id = 'accordion-' . $display->css_id ;
   }
 
-  $output = '<div class="drulog-panels-accordion" id="'.$regionId.'">';
+  $output = '';
+  $output .= '<div id="'. $region_id .'" class="region region-' . $vars['region_id'] . '">';
 
-  foreach ( $panes as $paneID => $pane ) {
-  	$content = $display->content[$paneID] ;
-  	$cid = $regionId .'-' . $paneID ;
-    // Add the separator if we've already displayed a pane.
-    $output .= '<h4 class="accordion-title">' . $content->title . '</h4>' ;
-    $output .= '<div class="accordion-content '.$cid.'">' . $pane . '</div>' ;
+  $items = array();
+  $delta = 1;
+  foreach ($display->panels[$vars['region_id']] as $pane_id) {
+    // Make sure the pane exists.
+    if (!empty($panes[$pane_id])) {
+      $title = bangpoundpanels_pane_titles($display->did, $pane_id);
+
+      if (!is_array($title)) {
+        $title = array(
+          '#type' => 'link',
+          '#title' => $title,
+          '#href' => '#',
+          '#options' => array(
+            'absolute' => TRUE,
+            'external' => TRUE,
+          ),
+        );
+      }
+
+      $output .= '<h3 class="pane-title">';
+      $output .= $title ? render($title) : t('Tab @delta', array('@delta' => $delta));
+      $output .= '</h3>';
+      $output .= '<div>';
+      $output .= $panes[$pane_id];
+      $output .= '</div>';
+      ++$delta;
+    }
   }
 
-  $output .= '</div>' ;
+  $output .= '</div>';
 
-  $settingsJs = array(
-  	'accordion' => array( $regionId  => array( 'options' => array('header' => 'h4.accordion-title') ) )
-  );
+  $settings['header'] = '.pane-title';
+  $settings['active'] = (int) $settings['active'];
 
-  $settingsJs['accordion'][$regionId]['options'] += $settings;
-  $settingsJs['accordion'][$regionId]['options']['active'] = (int) $settingsJs['accordion'][$regionId]['options']['active'];
-  drupal_add_js($settingsJs, 'setting');
+  drupal_add_library('system', 'ui.accordion');
+  drupal_add_js(drupal_get_path('module', 'bangpoundpanels') .'/plugins/styles/accordion/accordion.js');
+  drupal_add_js(array('accordion' => array('#'. $region_id => $settings)), 'setting');
   return $output;
 }
 
-function panopoly_theme_panopoly_accordion_style_settings_form($style_settings) {
+function bangpoundpanels_accordion_style_settings_form($style_settings) {
   $form['active'] = array(
     '#type' => 'textfield',
     '#title' => t('Set active'),
