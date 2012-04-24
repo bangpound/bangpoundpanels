@@ -533,8 +533,9 @@ function bangpoundpanels_panels_pane_content_alter(&$content, $pane, $args, $con
     return;
   }
 
-  if (in_array($cache[$pane->did][$pane->panel], array('tabs', 'vertical_tabs', 'accordion'))) {
-    $pane->style['style'] = $cache[$pane->did][$pane->panel];
+  $styles = panels_get_styles();
+  if (isset($styles[$cache[$pane->did][$pane->panel]]['pane style'])) {
+    $pane->style['style'] = $styles[$cache[$pane->did][$pane->panel]]['pane style'];
 
     // Capture the title.
     if (!empty($content->title_link)) {

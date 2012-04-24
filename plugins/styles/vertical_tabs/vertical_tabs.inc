@@ -10,9 +10,9 @@ $plugin = array(
   'title' => t('Vertical tabs'),
   'description' => t('Presents the panes in a tabs fieldset.'),
   'render region' => 'bangpoundpanels_vertical_tabs_style_render_region',
-  'render pane' => 'panels_naked_style_render_pane',
   'settings form' => 'bangpoundpanels_vertical_tabs_style_settings_form',
   'settings validate' => 'bangpoundpanels_vertical_tabs_style_settings_validate',
+  'pane style' => 'naked',
 );
 
 /**
@@ -46,7 +46,7 @@ function theme_bangpoundpanels_vertical_tabs_style_render_region($vars) {
 
     $build[$pane_class] = array(
       '#type' => 'fieldset',
-      '#title' => $title,
+      '#title' => render($title),
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
       '#group' => $owner,

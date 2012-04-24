@@ -6,6 +6,7 @@ $plugin = array(
   'description' => t('Display panes as accordion.'),
   'render region' => 'bangpoundpanels_accordion_style_render_region',
   'render pane' => 'panels_pane__accordion',
+  'pane style' => 'default',
   'settings form' => 'bangpoundpanels_accordion_style_settings_form',
   'hook theme' => 'bangpoundpanels_accordion_theme',
   'weight' => -15,
