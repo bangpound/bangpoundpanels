@@ -481,27 +481,54 @@ function bangpoundpanels_theme_registry_alter(&$theme_registry) {
 }
 
 /**
+ * Implement hook_panels_pre_render().
+ *
+ * This captures the actual region style so that titles can be captured and printed by
+ * if needed by the style plugin.
+ */
+function bangpoundpanels_panels_pre_render($display, $renderer) {
+
+  // Stash region styles so that pane content can react to it.
+  $cache = &drupal_static('bangpoundpanels_panels_region_styles', array());
+
+  $cache[$display->did] = array();
+
+  $default = !empty($display->panel_settings['style']) ? $display->panel_settings['style'] : 'default';
+  foreach ($renderer->plugins['layout']['regions'] as $region_id => $title) {
+    if (empty($display->panel_settings[$region_id]['style']) || $display->panel_settings[$region_id]['style'] == -1) {
+      $cache[$display->did][$region_id] = $default;
+    }
+    else {
+      $cache[$display->did][$region_id] = $display->panel_settings[$region_id]['style'];
+    }
+  }
+}
+
+/**
  * Implements hook_panels_pane_content_alter().
  *
- * Hold the title of the pane for later use (i.e. show it as the tab's title),
- * and remove it form the pane itself.
+ * Hold the title of the pane for later use (i.e. show it as the tab's title).
  */
 function bangpoundpanels_panels_pane_content_alter(&$content, $pane, $args, $context) {
-  if (empty($pane->did)) {
+  $cache = &drupal_static('bangpoundpanels_panels_region_styles', array());
+
+  if (empty($pane->did) || !isset($cache[$pane->did][$pane->panel])) {
     return;
   }
-  // TODO: panels_load_display() isn't cached.
-  $display = panels_load_display($pane->did);
-  // Get the regions that should be themed as tabs.
-  foreach ($display->panel_settings as $key => $values) {
-    if ($key == 'style_settings') {
-      continue;
+
+  if (in_array($cache[$pane->did][$pane->panel], array('tabs', 'accordion'))) {
+
+    // Capture the title.
+    if (!empty($content->title_link)) {
+      $content->title_array = array(
+        '#markup' => $content->title,
+      );
     }
-    if (!empty($values['style']) && $values['style'] == 'accordion' && $pane->panel == $key && !empty($content->title)) {
-      // Capture the title.
-      bangpoundpanels_pane_titles($display->did, $pane->pid, $content->title);
-      // Remove it form the pane.
-      $content->title = '';
+    if (!empty($content->title_array)) {
+      bangpoundpanels_pane_titles($pane->did, $pane->pid, $content->title_array);
+    }
+    else if (!empty($content->title)) {
+      bangpoundpanels_pane_titles($pane->did, $pane->pid, $content->title);
     }
   }
 }
@@ -514,7 +541,7 @@ function bangpoundpanels_panels_pane_content_alter(&$content, $pane, $args, $con
  * @param $pid
  *   Panels pane ID.
  * @param $title
- *   Optional; Panles pane title to set, or if empty then the function will
+ *   Optional; Panels pane title to set, or if empty then the function will
  *   return the captured title based on the display ID and pane ID properties.
  *
  * @return
