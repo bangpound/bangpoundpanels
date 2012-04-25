@@ -11,8 +11,50 @@ $plugin = array(
   'title' => t('Tabs'),
   'description' => t('Show panel panes in a region as tabs.'),
   'render region' => 'bangpoundpanels_tabs_style_render_region',
-  'pane style' => 'naked',
+  'render pane' => 'panels_pane__tabs',
+  'pane style' => 'tabs',
+  'hook theme' => 'bangpoundpanels_tabs_theme',
 );
+
+/**
+ * Plugin's hook theme.
+ *
+ * Sets a template for the new pane theme.
+ */
+function bangpoundpanels_tabs_theme(&$theme, $data) {
+  $theme['panels_pane__tabs']['template'] = 'panels-pane--tabs';
+}
+
+/**
+ * Preprocess tabs pane.
+ *
+ * @see template_preprocess_panels_pane().
+ */
+function template_preprocess_panels_pane__tabs(&$variables, $hook) {
+
+  $content = $variables['content'];
+
+  if (!empty($content->css_id)) {
+    $css_id = drupal_html_id($content->css_id);
+  }
+  else {
+    $css_id = drupal_html_id($variables['pane']->panel);
+  }
+  $variables['attributes_array']['id'] = $css_id;
+
+  template_preprocess_panels_pane($variables);
+
+  $variables['classes_array'][] = 'pane-content';
+
+  if (!empty($variables['title'])) {
+    $title = $variables['title'];
+  }
+  else {
+    $title = t('Tab @delta', array('@delta' => $variables['pane']->position + 1));
+  }
+  $variables['title'] = '';
+  $variables['attributes_array']['title'] = $title;
+}
 
 /**
  * Render callback.
@@ -38,58 +80,20 @@ function theme_bangpoundpanels_tabs_style_render_region($vars) {
     ),
   );
 
-  $settings = array();
-  $settings['panelsTabs']['tabsID'][] = $tab_id;
-
   $element['#attached']['js'][] = array(
     'type' => 'setting',
-    'data' => $settings,
+    'data' => array(
+      'panelsTabs' => array(
+        '#'. $tab_id => array(
+        ),
+      ),
+    ),
   );
 
-  // Get the pane titles.
-  $items = array();
-  $delta = 1;
-  foreach ($display->panels[$region_id] as $pane_id) {
-    // Make sure the pane exists.
-    if (!empty($panes[$pane_id])) {
-      $title = bangpoundpanels_pane_titles($display->did, $pane_id);
-      $title = $title ? $title : t('Tab @delta', array('@delta' => $delta));
-
-      if (is_array($title) && isset($title['#markup'])) {
-        $title = filter_xss(render($title), array());
-      }
-      if (!is_array($title)) {
-        $title = array(
-          '#type' => 'link',
-          '#title' => $title,
-          '#href' => '#'. $tab_id .'-'. $delta,
-          '#options' => array(
-            'absolute' => TRUE,
-            'external' => TRUE,
-          ),
-        );
-      }
-      else if (is_array($title) && isset($title['#type']) && $title['#type'] == 'link') {
-        $title['#href'] = '#'. $tab_id .'-'. $delta;
-        $title['#options']['absolute'] = TRUE;
-        $title['#options']['external'] = TRUE;
-      }
-      $items[] = render($title);
-      ++$delta;
-    }
-  }
-
-  $element['tabs_title'] = array('#theme' => 'item_list', '#items' => $items);
-
-  $items = array();
-  $delta = 1;
   foreach ($panes as $pane_id => $item) {
     $element['tabs_content'][$pane_id] = array(
-      '#prefix' => '<div id="' . $tab_id . '-' . $delta . '">',
-      '#suffix' => '</div>',
       '#markup' => $item,
     );
-    ++$delta;
   }
 
   return drupal_render($element);
