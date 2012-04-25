@@ -500,76 +500,32 @@ function bangpoundpanels_theme_registry_alter(&$theme_registry) {
 /**
  * Implement hook_panels_pre_render().
  *
- * This captures the actual region style so that titles can be captured and printed by
- * if needed by the style plugin.
+ * Force style settings on panes in regions whose style has a 'pane style'.
  */
 function bangpoundpanels_panels_pre_render($display, $renderer) {
-
-  // Stash region styles so that pane content can react to it.
-  $cache = &drupal_static('bangpoundpanels_panels_region_styles', array());
-
-  $cache[$display->did] = array();
-
-  $default = !empty($display->panel_settings['style']) ? $display->panel_settings['style'] : 'default';
-  foreach ($renderer->plugins['layout']['regions'] as $region_id => $title) {
-    if (empty($display->panel_settings[$region_id]['style']) || $display->panel_settings[$region_id]['style'] == -1) {
-      $cache[$display->did][$region_id] = $default;
-    }
-    else {
-      $cache[$display->did][$region_id] = $display->panel_settings[$region_id]['style'];
-    }
-  }
-}
-
-/**
- * Implements hook_panels_pane_content_alter().
- *
- * Hold the title of the pane for later use (i.e. show it as the tab's title).
- */
-function bangpoundpanels_panels_pane_content_alter(&$content, $pane, $args, $context) {
-  $cache = &drupal_static('bangpoundpanels_panels_region_styles', array());
-
-  if (empty($pane->did) || !isset($cache[$pane->did][$pane->panel])) {
-    return;
-  }
-
   $styles = panels_get_styles();
-  if (isset($styles[$cache[$pane->did][$pane->panel]]['pane style'])) {
-    $pane->style['style'] = $styles[$cache[$pane->did][$pane->panel]]['pane style'];
+  $default = !empty($display->panel_settings['style']) ? $display->panel_settings['style'] : 'default';
 
-    // Capture the title.
-    if (!empty($content->title_link)) {
-      $content->title_array = array(
-        '#markup' => $content->title,
-      );
+  // Loop through each region of the display to inspect the region's style.
+  foreach (array_keys($renderer->plugins['layout']['regions']) as $region_id) {
+
+    // If the region's style has not been set or is -1 (display default), use display
+    // default.
+    if (empty($display->panel_settings[$region_id]['style']) || $display->panel_settings[$region_id]['style'] == -1) {
+      $style = $styles[$default];
     }
-    if (!empty($content->title_array)) {
-      bangpoundpanels_pane_titles($pane->did, $pane->pid, $content->title_array);
+
+    // Otherwise, use the region's style.
+    else {
+      $style = $styles[$display->panel_settings[$region_id]['style']];
     }
-    else if (!empty($content->title)) {
-      bangpoundpanels_pane_titles($pane->did, $pane->pid, $content->title);
+
+    // If the region's style has a 'pane style' property, rewrite the style settings for
+    // every pane in that region.
+    if (isset($style['pane style'])) {
+      foreach ($display->panels[$region_id] as $pane_id) {
+        $display->content[$pane_id]->style['style'] = $style['pane style'];
+      }
     }
   }
-}
-
-/**
- * Get or set pane title.
- *
- * @param $did
- *   Panels display ID.
- * @param $pid
- *   Panels pane ID.
- * @param $title
- *   Optional; Panels pane title to set, or if empty then the function will
- *   return the captured title based on the display ID and pane ID properties.
- *
- * @return
- *   Unsanitized pane title, or NULL if doesn't exist.
- */
-function bangpoundpanels_pane_titles($did = NULL, $pid = NULL, $title = NULL) {
-  $cache = &drupal_static(__FUNCTION__, array());
-  if (!isset($title)) {
-    return isset($cache[$did][$pid]) ? $cache[$did][$pid] : NULL;
-  }
-  $cache[$did][$pid] = $title;
 }
