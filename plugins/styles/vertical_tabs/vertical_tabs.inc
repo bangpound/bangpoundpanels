@@ -10,10 +10,47 @@ $plugin = array(
   'title' => t('Vertical tabs'),
   'description' => t('Presents the panes in a tabs fieldset.'),
   'render region' => 'bangpoundpanels_vertical_tabs_style_render_region',
+  'render pane' => 'bangpoundpanels_vertical_tabs_style_render_pane',
   'settings form' => 'bangpoundpanels_vertical_tabs_style_settings_form',
   'settings validate' => 'bangpoundpanels_vertical_tabs_style_settings_validate',
-  'pane style' => 'naked',
+  'pane style' => 'vertical_tabs',
 );
+
+/**
+ * Render pane callback.
+ *
+ * @ingroup themeable
+ */
+function theme_bangpoundpanels_vertical_tabs_style_render_pane($vars) {
+  $content = $vars['content'];
+  $display = $vars['display'];
+
+  $owner = 0;
+  if (isset($display->owner) && is_object($display->owner) && isset($display->owner->id)) {
+    $owner = $display->owner->id;
+  }
+
+  $title = $content->title ? $content->title : t('Tab @delta', array('@delta' => $vars['pane']->position + 1));
+  $element = array(
+    '#type' => 'fieldset',
+    '#title' => $title,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => $owner,
+    '#tree' => TRUE,
+    '#weight' => $vars['pane']->position + 1,
+  );
+
+  $pane_class = "pane_" . $vars['pane']->pid;
+  $element['#attributes'] = array(
+    'class' => array($pane_class),
+  );
+
+  $element[$pane_class] = array(
+    '#children' => render($content->content),
+  );
+  return drupal_render($element);
+}
 
 /**
  * Render callback.
@@ -21,51 +58,13 @@ $plugin = array(
  * @ingroup themeable
  */
 function theme_bangpoundpanels_vertical_tabs_style_render_region($vars) {
-
   $display = $vars['display'];
   $region_id = $vars['region_id'];
-  $panes = array_reverse($vars['panes'], TRUE);
+  $panes = $vars['panes'];
   $settings = $vars['settings'];
-
-  //Build items and fieldset
-  $items = array();
-  $owner = $vars['owner_id'];
-
-  $build[$owner] = array(
-    '#type' => 'vertical_tabs',
-    '#weight' => 99,
-  );
-
-  $delta = 1;
-  foreach ($display->panels[$region_id] as $pane_id) {
-
-    $title = bangpoundpanels_pane_titles($display->did, $pane_id);
-    $title = $title ? $title : t('Tab @delta', array('@delta' => $delta));
-
-    $pane_class = "pane_" . $pane_id;
-
-    $build[$pane_class] = array(
-      '#type' => 'fieldset',
-      '#title' => render($title),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#group' => $owner,
-      '#attributes' => array(
-        'class' => array($pane_class),
-      ),
-      '#tree' => TRUE,
-      '#weight' => -2,
-    );
-
-    $build[$pane_class]['items'] = array(
-      '#markup' => $panes[$pane_id],
-    );
-    $delta++;
-  }
-
   return theme($settings['tabs_type'], array(
       'element' => array(
-        '#children' => render($build),
+        '#children' => implode($vars['panes']),
       ),
   ));
 }
