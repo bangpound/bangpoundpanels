@@ -46,8 +46,14 @@ function template_preprocess_panels_pane__tabs(&$variables, $hook) {
 
   $variables['classes_array'][] = 'pane-content';
 
-  if (!empty($variables['title'])) {
-    $title = $variables['title'];
+  if (!empty($content->title_array) && isset($content->title_array['#title'])) {
+    $title = $content->title_array['#title'];
+  }
+  else if (!empty($content->title_link)) {
+    $title = filter_xss($content->title, array());
+  }
+  else if (!empty($content->title)) {
+    $title = $content->title;
   }
   else {
     $title = t('Tab @delta', array('@delta' => $variables['pane']->position + 1));
