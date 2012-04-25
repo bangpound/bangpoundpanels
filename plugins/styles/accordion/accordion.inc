@@ -32,7 +32,7 @@ function template_preprocess_panels_pane__accordion(&$variables, $hook) {
 
   if (!empty($content->css_id)) {
     $css_id = drupal_html_id($content->css_id);
-    $variables['attributes']['id'] = $css_id;
+    $variables['attributes_array']['id'] = $css_id;
   }
   else {
     $css_id = drupal_html_id($variables['pane']->panel);
@@ -63,16 +63,16 @@ function template_preprocess_panels_pane__accordion(&$variables, $hook) {
 
   $variables['title'] = render($variables['title']);
 
-  if (!isset($variables['attributes']['class'])) {
-    $variables['attributes']['class'] = array();
+  if (!isset($variables['attributes_array']['class'])) {
+    $variables['attributes_array']['class'] = array();
   }
 
   if (!empty($variables['classes_array'])) {
-    $variables['attributes']['class'] = array_merge_recursive($variables['attributes']['class'], $variables['classes_array']);
+    $variables['attributes_array']['class'] = array_merge_recursive($variables['attributes_array']['class'], $variables['classes_array']);
   }
 
-  if (!empty($variables['attributes'])) {
-    $variables['content_attributes_array'] = array_merge_recursive($variables['content_attributes_array'], $variables['attributes']);
+  if (!empty($variables['attributes_array'])) {
+    $variables['content_attributes_array'] = array_merge_recursive($variables['content_attributes_array'], $variables['attributes_array']);
   }
 
 }
