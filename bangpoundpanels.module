@@ -44,6 +44,49 @@ function bangpoundpanels_menu_alter(&$items) {
 }
 
 /**
+ * Implement hook_entity_view_alter().
+ *
+ * Contextual links are added after hook_node_view() in node_view(), so
+ * use hook_entity_view_alter() to add the node's links.
+ */
+function bangpoundpanels_entity_view_alter(&$build, $type) {
+  $node = $build['#node'];
+  $view_mode = $build['#view_mode'];
+
+  $hook = $build['#theme'];
+  $hooks = theme_get_registry(FALSE);
+  $entity_key = $hooks[$hook]['entity key'];
+  $entity = $build[$entity_key];
+  $entity_type = $build['#entity_type'];
+  $view_mode = $build['#view_mode'];
+
+  list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
+
+  // Avoid adding suggestions for lone bundles and default view modes.
+  $info = entity_get_info($entity_type);
+  $settings = field_view_mode_settings($entity_type, $bundle);
+
+  if (isset($info['bundles'][$bundle]['admin']['bundle argument'])) {
+    $path = implode('/', array_slice(explode('/', $info['bundles'][$bundle]['admin']['path']), 0, $info['bundles'][$bundle]['admin']['path'] - 1));
+  }
+  else {
+    $path = $info['bundles'][$bundle]['admin']['path'];
+  }
+  if (!empty($id) && !empty($path)) {
+
+    // Field UI doesn't provide its own contextual links, so we pretend to be
+    // Field UI. This could backfire.
+
+    if (isset($info['bundles'][$bundle]['admin']['bundle argument'])) {
+      $build['#contextual_links']['field_ui'] = array($path, array($bundle));
+    }
+    else {
+      $build['#contextual_links']['field_ui'] = array($path, array());
+    }
+  }
+}
+
+/**
  * Implement hook_schema_alter().
  */
 function bangpoundpanels_schema_alter(&$schema) {
