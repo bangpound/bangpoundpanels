@@ -227,6 +227,11 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
     // Get the configuration
     $conf = $form_state['conf'];
 
+    // Only add style settings when we are on a node view
+    list($name, $display_id) = explode('-', $form_state['subtype_name']);
+    $view = views_get_view($name);
+    $view->set_display($display_id);
+
     // Add the content setting fieldset
     if (isset($form['exposed']) && count($form['exposed']) > 1) {
       $form['exposed']['#title'] = t('General Settings');
@@ -247,8 +252,8 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'textfield',
       '#size' => 30,
       '#weight' => -100,
-      '#attributes' => (empty($conf['widget_title']) || empty($form_state['view']->display_handler->options['title'])) ? array('placeholder' => '<No Title>') : array(),
-      '#default_value' => (isset($conf['widget_title'])) ? $conf['widget_title'] : $form_state['view']->display_handler->options['title'],
+      '#attributes' => (empty($conf['widget_title']) || empty($view->display_handler->options['title'])) ? array('placeholder' => '<No Title>') : array(),
+      '#default_value' => (isset($conf['widget_title'])) ? $conf['widget_title'] : $view->display_handler->options['title'],
     );
 
     // Move items per page wiget to widget area
@@ -270,8 +275,7 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
       }
     }
 
-    // Only add style settings when we are on a node view
-    if ($form_state['view']->display_handler->get_option('row_plugin') == 'node' && in_array($form_state['view']->display_handler->get_option('style_plugin'), array('default', 'slideshow'))) {
+    if ($view->display_handler->get_option('row_plugin') == 'node' && in_array($view->display_handler->get_option('style_plugin'), array('default', 'slideshow'))) {
       // Add the style setting fieldset
       $form['style_settings'] = array(
         '#type' => 'fieldset',
@@ -293,8 +297,13 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
 
   // Add an autocomplete form for node title exposed filters in content pane editing forms
   if ($form_id == 'views_content_views_panes_content_type_edit_form') {
-    if (isset($form['exposed']['filter-title']['title']) && isset($form_state['view']->display_handler->options['filters']['type']['value']) && count($form_state['view']->display_handler->options['filters']['type']['value']) == 1) {
-      $node_type = implode('', $form_state['view']->display_handler->options['filters']['type']['value']);
+
+    list($name, $display_id) = explode('-', $form_state['subtype_name']);
+    $view = views_get_view($name);
+    $view->set_display($display_id);
+
+    if (isset($form['exposed']['filter-title']['title']) && isset($view->display_handler->options['filters']['type']['value']) && count($view->display_handler->options['filters']['type']['value']) == 1) {
+      $node_type = implode('', $view->display_handler->options['filters']['type']['value']);
       $form['exposed']['filter-title']['title']['#autocomplete_path'] = 'autocomplete_bangpoundpanels/' . $node_type;
       $form['exposed']['filter-title']['title']['#size'] = 60;
     }
