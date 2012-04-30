@@ -25,7 +25,7 @@ project](http://drupal.org/project/panels_tabs) and this [Vertical Tabs plugin
 patch](http://drupal.org/node/1101536#comment-5789436). These are three style plugins that
 all confront the same problems.
 
-1. Region styles and pane styles are completely distinct. Even though they region styles
+1. Region styles and pane styles are completely distinct. Even though region styles
    and pane styles can coexist in the same plugin, when the display is rendered, they may
    as well be two completely different plugins.
 2. The return value of `ctools_content_render()` and
