@@ -537,20 +537,28 @@ function bangpoundpanels_template_suggest_view_mode(&$variables, $hook) {
  * field_attach_view() adds entity type and bundle info to the render elements.
  */
 function bangpoundpanels_theme_registry_alter(&$theme_registry) {
-  $theme_registry['node']['entity key'] = '#node';
-  $theme_registry['node']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
 
-  $theme_registry['user_profile']['entity key'] = '#account';
-  $theme_registry['user_profile']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+  // Overload theme registry with property name of entity in render element or variables.
+  $entity_themes = array(
 
-  $theme_registry['file_entity']['entity key'] = '#file';
-  $theme_registry['file_entity']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+    // Node and user module are required, so these themes are always present.
+    'node' => '#node',
+    'user_profile' => '#account',
 
-  $theme_registry['comment']['entity key'] = '#comment';
-  $theme_registry['comment']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+    // These entity themes are optional core or contrib.
+    'comment' => '#comment',
+    'entity' => '#entity',
+    'fieldable_panels_pane' => '#element',
+    'file_entity' => '#file',
+    'taxonomy_term' => '#term',
+  );
 
-  $theme_registry['taxonomy_term']['entity key'] = '#term';
-  $theme_registry['taxonomy_term']['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+  foreach ($entity_themes as $hook => $entity_key) {
+    if (isset($theme_registry[$hook])) {
+      $theme_registry[$hook]['entity key'] = $entity_key;
+      $theme_registry[$hook]['preprocess functions'][] = 'bangpoundpanels_template_suggest_view_mode';
+    }
+  }
 }
 
 /**
