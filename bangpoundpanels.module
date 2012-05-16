@@ -204,8 +204,8 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
       );
 
       // Autosubmit the form
-      ctools_add_js('auto-submit');
-      $form['#attributes']['class'][] = 'ctools-auto-submit-full-form';
+      // ctools_add_js('auto-submit');
+      // $form['#attributes']['class'][] = 'ctools-auto-submit-full-form';
     }
   }
 
@@ -297,7 +297,6 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
     // Add a custom submit handler
     $form['#submit'][] = 'bangpoundpanels_views_view_mode_pane_submit';
   }
-
 
   // Add an autocomplete form for node title exposed filters in content pane editing forms
   if ($form_id == 'views_content_views_panes_content_type_edit_form') {
