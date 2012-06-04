@@ -10,7 +10,7 @@ function bangpoundpanels_contextual_links_view_alter(&$element, &$items) {
     $view_mode = $element['#element']['#view_mode'];
     $entity_info = entity_get_info($element['#element']['#entity_type']);
     $settings = field_view_mode_settings($element['#element']['#entity_type'], $element['#element']['#bundle']);
-    if ($settings[$view_mode]['custom_settings']) {
+    if (isset($settings[$view_mode]) && $settings[$view_mode]['custom_settings']) {
       $element['#links']['field-ui-display']['title'] =  t('Manage %view_mode display', array('%view_mode' => $entity_info['view modes'][$view_mode]['label']));
       $element['#links']['field-ui-display']['href'] .= '/'. $view_mode;
       $element['#links']['field-ui-display']['html'] = TRUE;
