@@ -292,6 +292,24 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
         '#options' => _bangpoundpanels_view_mode_options(),
         '#default_value' => $conf['view_mode'] ? $conf['view_mode'] : 'teaser',
       );
+
+      // Add specific style options
+      $form['style_settings']['view_mode'] = array(
+        '#type' => 'radios',
+        '#options' => _bangpoundpanels_view_mode_options(),
+        '#default_value' => $conf['view_mode'] ? $conf['view_mode'] : 'teaser',
+      );
+      $form['style_settings']['links'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Display links'),
+        '#default_value' => $conf['links'] ? $conf['links'] : TRUE,
+      );
+      $form['style_settings']['comments'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Display comments'),
+        '#default_value' => $conf['comments'] ? $conf['comments'] : FALSE,
+      );
+
     }
 
     // Add a custom submit handler
@@ -318,6 +336,10 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
  */
 function bangpoundpanels_views_view_mode_pane_submit(&$form, &$form_state) {
   $form_state['conf']['view_mode'] = (isset($form_state['values']['view_mode'])) ? $form_state['values']['view_mode'] : NULL;
+
+  $form_state['conf']['comments'] = (isset($form_state['values']['comments'])) ? $form_state['values']['comments'] : NULL;
+
+  $form_state['conf']['links'] = (isset($form_state['values']['links'])) ? $form_state['values']['links'] : NULL;
 
   // Set the $conf['widget_title'] value. We need to do this a
   // little funky since sometimes it comes inside of $form_state['values']
@@ -363,6 +385,14 @@ function bangpoundpanels_views_pre_render(&$view) {
     // Set the view mode
     if (isset($conf['view_mode'])) {
       $view->style_plugin->row_plugin->options['view_mode'] = $conf['view_mode'];
+    }
+
+    if (isset($conf['links'])) {
+      $view->style_plugin->row_plugin->options['links'] = $conf['links'];
+    }
+
+    if (isset($conf['comments'])) {
+      $view->style_plugin->row_plugin->options['comments'] = $conf['comments'];
     }
   }
 }
