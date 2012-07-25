@@ -214,13 +214,6 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
         '#options' => _bangpoundpanels_view_mode_options(),
         '#default_value' => $conf['view_mode'] ? $conf['view_mode'] : 'teaser',
       );
-
-      // Add specific style options
-      $form['style_settings']['view_mode'] = array(
-        '#type' => 'radios',
-        '#options' => _bangpoundpanels_view_mode_options(),
-        '#default_value' => $conf['view_mode'] ? $conf['view_mode'] : 'teaser',
-      );
       $form['style_settings']['links'] = array(
         '#type' => 'checkbox',
         '#title' => t('Display links'),
