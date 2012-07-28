@@ -85,12 +85,11 @@ function bangpoundpanels_menu() {
 }
 
 /**
- * Implementation of hook_form_alter()
+ * Implementation of hook_form_FORM_ID_alter()
  */
-function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
+function bangpoundpanels_form_panels_edit_style_type_form_alter(&$form, $form_state) {
 
   // Add customization to panel pane style form
-  if ($form_id == 'panels_edit_style_type_form') {
 
     // Unset options for which we have no need
     unset($form['style']['#options']['block']);
@@ -103,11 +102,13 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
     $form['style'] = array('style' => $form['style']);
     $form['style']['#type'] = 'fieldset';
     $form['style']['#title'] = t('Style Settings');
-  }
+}
 
+/**
+ * Implementation of hook_form_FORM_ID_alter()
+ */
+function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_alter(&$form, $form_state) {
   // Add customization to panel pane settings form
-  if ($form_id == 'views_content_views_panes_content_type_edit_form') {
-
     // Get the configuration
     $conf = $form_state['conf'];
 
@@ -199,21 +200,12 @@ function bangpoundpanels_form_alter(&$form, $form_state, $form_id) {
 
     // Add a custom submit handler
     $form['#submit'][] = 'bangpoundpanels_views_view_mode_pane_submit';
-  }
-
-  // Add an autocomplete form for node title exposed filters in content pane editing forms
-  if ($form_id == 'views_content_views_panes_content_type_edit_form') {
-
-    list($name, $display_id) = explode('-', $form_state['subtype_name']);
-    $view = views_get_view($name);
-    $view->set_display($display_id);
 
     if (isset($form['exposed']['filter-title']['title']) && isset($view->display_handler->options['filters']['type']['value']) && count($view->display_handler->options['filters']['type']['value']) == 1) {
       $node_type = implode('', $view->display_handler->options['filters']['type']['value']);
       $form['exposed']['filter-title']['title']['#autocomplete_path'] = 'autocomplete_bangpoundpanels/' . $node_type;
       $form['exposed']['filter-title']['title']['#size'] = 60;
     }
-  }
 }
 
 /**
@@ -279,17 +271,6 @@ function bangpoundpanels_views_pre_render(&$view) {
     if (isset($conf['comments'])) {
       $view->style_plugin->row_plugin->options['comments'] = $conf['comments'];
     }
-  }
-}
-
-/**
- * Implementation of hook_module_implements_alter()
- */
-function bangpoundpanels_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'form_alter') {
-    $group = $implementations['bangpoundpanels'];
-    unset($implementations['bangpoundpanels']);
-    $implementations['bangpoundpanels'] = $group;
   }
 }
 
