@@ -56,8 +56,8 @@ function bangpoundpanels_page_alter(&$page) {
 function bangpoundpanels_schema_alter(&$schema) {
   if (module_exists('panels')) {
     // Set default styles to naked.
-    $schema['panels_display']['fields']['panel_settings']['object default']['style'] = 'naked';
-    $schema['panels_pane']['fields']['style']['object default']['style'] = 'naked';
+    $schema['panels_display']['fields']['panel_settings']['object default']['style'] = variable_get('bangpoundpanels_display_default_style', 'naked');
+    $schema['panels_pane']['fields']['style']['object default']['style'] = variable_get('bangpoundpanels_pane_default_style', 'naked');
   }
 }
 
