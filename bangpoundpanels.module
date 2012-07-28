@@ -91,17 +91,17 @@ function bangpoundpanels_form_panels_edit_style_type_form_alter(&$form, $form_st
 
   // Add customization to panel pane style form
 
-    // Unset options for which we have no need
-    unset($form['style']['#options']['block']);
-    unset($form['style']['#options']['rounded_corners']);
+  // Unset options for which we have no need
+  unset($form['style']['#options']['block']);
+  unset($form['style']['#options']['rounded_corners']);
 
-    // Set "no style" to be the default style
-    $form['style']['#options']['default'] = t('Default Pane Style');
+  // Set "no style" to be the default style
+  $form['style']['#options']['default'] = t('Default Pane Style');
 
-    // Adding a fieldset around styling
-    $form['style'] = array('style' => $form['style']);
-    $form['style']['#type'] = 'fieldset';
-    $form['style']['#title'] = t('Style Settings');
+  // Adding a fieldset around styling
+  $form['style'] = array('style' => $form['style']);
+  $form['style']['#type'] = 'fieldset';
+  $form['style']['#title'] = t('Style Settings');
 }
 
 /**
@@ -109,103 +109,103 @@ function bangpoundpanels_form_panels_edit_style_type_form_alter(&$form, $form_st
  */
 function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_alter(&$form, $form_state) {
   // Add customization to panel pane settings form
-    // Get the configuration
-    $conf = $form_state['conf'];
+  // Get the configuration
+  $conf = $form_state['conf'];
 
-    // Only add style settings when we are on a node view
-    list($name, $display_id) = explode('-', $form_state['subtype_name']);
-    $view = views_get_view($name);
-    $view->set_display($display_id);
+  // Only add style settings when we are on a node view
+  list($name, $display_id) = explode('-', $form_state['subtype_name']);
+  $view = views_get_view($name);
+  $view->set_display($display_id);
 
-    // Add the content setting fieldset
-    if (isset($form['exposed']) && count($form['exposed']) > 1) {
-      $form['exposed']['#title'] = t('General Settings');
-      $form['exposed']['#type'] = 'fieldset';
-      $form['exposed']['#weight'] = -10;
-    }
-    else {
-      $form['exposed'] = array(
-        '#type' => 'fieldset',
-        '#title' => t('General Settings'),
-        '#weight' => -10,
-      );
-    }
-
-    // Add a widget title setting
-    $form['exposed']['widget_title'] = array(
-      '#field_prefix' => t('Title'),
-      '#type' => 'textfield',
-      '#size' => 30,
-      '#weight' => -100,
-      '#attributes' => (empty($conf['widget_title']) || empty($view->display_handler->options['title'])) ? array('placeholder' => '<No Title>') : array(),
-      '#default_value' => (isset($conf['widget_title'])) ? $conf['widget_title'] : $view->display_handler->options['title'],
+  // Add the content setting fieldset
+  if (isset($form['exposed']) && count($form['exposed']) > 1) {
+    $form['exposed']['#title'] = t('General Settings');
+    $form['exposed']['#type'] = 'fieldset';
+    $form['exposed']['#weight'] = -10;
+  }
+  else {
+    $form['exposed'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('General Settings'),
+      '#weight' => -10,
     );
+  }
 
-    // Improve presentation of exposed sort options
-    if (!empty($form['exposed']['sort_by'])) {
-      $form['exposed']['sort_by']['#field_prefix'] = $form['exposed']['sort_by']['#title'];
-      $form['exposed']['sort_by']['#title'] = '';
-    }
-    if (!empty($form['exposed']['sort_order'])) {
-      $form['exposed']['sort_order']['#title'] = t('Sort order');
-      $form['exposed']['sort_order']['#field_prefix'] = $form['exposed']['sort_order']['#title'];
-      $form['exposed']['sort_order']['#title'] = '';
-    }
+  // Add a widget title setting
+  $form['exposed']['widget_title'] = array(
+    '#field_prefix' => t('Title'),
+    '#type' => 'textfield',
+    '#size' => 30,
+    '#weight' => -100,
+    '#attributes' => (empty($conf['widget_title']) || empty($view->display_handler->options['title'])) ? array('placeholder' => '<No Title>') : array(),
+    '#default_value' => (isset($conf['widget_title'])) ? $conf['widget_title'] : $view->display_handler->options['title'],
+  );
 
-    // Move items per page wiget to widget area
-    if (isset($form['items_per_page'])) {
-      $form['items_per_page']['#field_prefix'] = $form['items_per_page']['#title'];
-      $form['items_per_page']['#title'] = '';
-      $form['items_per_page']['#weight'] = -90;
-      $form['exposed']['items_per_page'] = $form['items_per_page'];
-      unset($form['items_per_page']);
-    }
+  // Improve presentation of exposed sort options
+  if (!empty($form['exposed']['sort_by'])) {
+    $form['exposed']['sort_by']['#field_prefix'] = $form['exposed']['sort_by']['#title'];
+    $form['exposed']['sort_by']['#title'] = '';
+  }
+  if (!empty($form['exposed']['sort_order'])) {
+    $form['exposed']['sort_order']['#title'] = t('Sort order');
+    $form['exposed']['sort_order']['#field_prefix'] = $form['exposed']['sort_order']['#title'];
+    $form['exposed']['sort_order']['#title'] = '';
+  }
 
-    // Update field setting options
-    if (isset($form['fields_override'])) {
-      $form['fields_override']['#title'] = t('Field Settings');
-      $form['fields_override']['#collapsible'] = FALSE;
-      foreach($form['fields_override'] as &$field) {
-        if (is_array($field)) {
-          $field['#title'] = t('Display') . ' ' . $field['#title'];
-        }
+  // Move items per page wiget to widget area
+  if (isset($form['items_per_page'])) {
+    $form['items_per_page']['#field_prefix'] = $form['items_per_page']['#title'];
+    $form['items_per_page']['#title'] = '';
+    $form['items_per_page']['#weight'] = -90;
+    $form['exposed']['items_per_page'] = $form['items_per_page'];
+    unset($form['items_per_page']);
+  }
+
+  // Update field setting options
+  if (isset($form['fields_override'])) {
+    $form['fields_override']['#title'] = t('Field Settings');
+    $form['fields_override']['#collapsible'] = FALSE;
+    foreach($form['fields_override'] as &$field) {
+      if (is_array($field)) {
+        $field['#title'] = t('Display') . ' ' . $field['#title'];
       }
     }
+  }
 
-    if ($view->display_handler->get_option('row_plugin') == 'node' && in_array($view->display_handler->get_option('style_plugin'), array('default', 'slideshow'))) {
-      // Add the style setting fieldset
-      $form['style_settings'] = array(
-        '#type' => 'fieldset',
-        '#title' => 'Style Settings',
-      );
+  if ($view->display_handler->get_option('row_plugin') == 'node' && in_array($view->display_handler->get_option('style_plugin'), array('default', 'slideshow'))) {
+    // Add the style setting fieldset
+    $form['style_settings'] = array(
+      '#type' => 'fieldset',
+      '#title' => 'Style Settings',
+    );
 
-      // Add specific style options
-      $form['style_settings']['view_mode'] = array(
-        '#type' => 'radios',
-        '#options' => _bangpoundpanels_view_mode_options(),
-        '#default_value' => $conf['view_mode'] ? $conf['view_mode'] : 'teaser',
-      );
-      $form['style_settings']['links'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Display links'),
-        '#default_value' => $conf['links'] ? $conf['links'] : TRUE,
-      );
-      $form['style_settings']['comments'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Display comments'),
-        '#default_value' => $conf['comments'] ? $conf['comments'] : FALSE,
-      );
+    // Add specific style options
+    $form['style_settings']['view_mode'] = array(
+      '#type' => 'radios',
+      '#options' => _bangpoundpanels_view_mode_options(),
+      '#default_value' => $conf['view_mode'] ? $conf['view_mode'] : 'teaser',
+    );
+    $form['style_settings']['links'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Display links'),
+      '#default_value' => $conf['links'] ? $conf['links'] : TRUE,
+    );
+    $form['style_settings']['comments'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Display comments'),
+      '#default_value' => $conf['comments'] ? $conf['comments'] : FALSE,
+    );
 
-    }
+  }
 
-    // Add a custom submit handler
-    $form['#submit'][] = 'bangpoundpanels_views_view_mode_pane_submit';
+  // Add a custom submit handler
+  $form['#submit'][] = 'bangpoundpanels_views_view_mode_pane_submit';
 
-    if (isset($form['exposed']['filter-title']['title']) && isset($view->display_handler->options['filters']['type']['value']) && count($view->display_handler->options['filters']['type']['value']) == 1) {
-      $node_type = implode('', $view->display_handler->options['filters']['type']['value']);
-      $form['exposed']['filter-title']['title']['#autocomplete_path'] = 'autocomplete_bangpoundpanels/' . $node_type;
-      $form['exposed']['filter-title']['title']['#size'] = 60;
-    }
+  if (isset($form['exposed']['filter-title']['title']) && isset($view->display_handler->options['filters']['type']['value']) && count($view->display_handler->options['filters']['type']['value']) == 1) {
+    $node_type = implode('', $view->display_handler->options['filters']['type']['value']);
+    $form['exposed']['filter-title']['title']['#autocomplete_path'] = 'autocomplete_bangpoundpanels/' . $node_type;
+    $form['exposed']['filter-title']['title']['#size'] = 60;
+  }
 }
 
 /**
