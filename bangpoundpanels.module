@@ -97,11 +97,6 @@ function bangpoundpanels_form_panels_edit_style_type_form_alter(&$form, $form_st
 
   // Set "no style" to be the default style
   $form['style']['#options']['default'] = t('Default Pane Style');
-
-  // Adding a fieldset around styling
-  $form['style'] = array('style' => $form['style']);
-  $form['style']['#type'] = 'fieldset';
-  $form['style']['#title'] = t('Style Settings');
 }
 
 /**
