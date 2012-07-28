@@ -212,11 +212,11 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
  * Custom submit handler to save panels pane configuration for styling
  */
 function bangpoundpanels_views_view_mode_pane_submit(&$form, &$form_state) {
-  $form_state['conf']['view_mode'] = (isset($form_state['values']['view_mode'])) ? $form_state['values']['view_mode'] : NULL;
 
-  $form_state['conf']['comments'] = (isset($form_state['values']['comments'])) ? $form_state['values']['comments'] : NULL;
-
-  $form_state['conf']['links'] = (isset($form_state['values']['links'])) ? $form_state['values']['links'] : NULL;
+  // Store the view mode, comments and link options.
+  foreach (array('view_mode', 'comments', 'links') as $key) {
+    $form_state['conf'][$key] = (isset($form_state['values'][$key])) ? $form_state['values'][$key] : NULL;
+  }
 
   // Set the $conf['widget_title'] value. We need to do this a
   // little funky since sometimes it comes inside of $form_state['values']
@@ -259,17 +259,11 @@ function bangpoundpanels_views_pre_render(&$view) {
       $view->display_handler->options['title'] = (isset($conf['exposed']['widget_title'])) ? $conf['exposed']['widget_title'] : $conf['widget_title'];
     }
 
-    // Set the view mode
-    if (isset($conf['view_mode'])) {
-      $view->style_plugin->row_plugin->options['view_mode'] = $conf['view_mode'];
-    }
-
-    if (isset($conf['links'])) {
-      $view->style_plugin->row_plugin->options['links'] = $conf['links'];
-    }
-
-    if (isset($conf['comments'])) {
-      $view->style_plugin->row_plugin->options['comments'] = $conf['comments'];
+    // Set the view mode, comments and link options.
+    foreach (array('view_mode', 'comments', 'links') as $key) {
+      if (isset($conf[$key])) {
+        $view->style_plugin->row_plugin->options[$key] = $conf[$key];
+      }
     }
   }
 }
