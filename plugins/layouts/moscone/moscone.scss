@@ -2,11 +2,14 @@
  * @file
  * OA Moscone panel layout
 **/
+
+@import "../base";
+
 .moscone-container {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
   .moscone-sidebar {
     width: 34.043%;
     float: left;

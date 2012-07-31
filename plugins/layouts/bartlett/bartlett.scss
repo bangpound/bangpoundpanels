@@ -2,11 +2,14 @@
  * @file
  * OA Bartlett panel layout
  **/
+
+@import "../base";
+
 .bartlett-container, .bartlett-content-header {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
   .bartlett-column {
     width: 34.043%;
     float: left;
@@ -17,16 +20,16 @@
   }
 
   .bartlett-content-container {
-    /* This is floated to the left of the sidebar, which is styled by the generic
-       "bartlett-column" class */
+/* This is floated to the left of the sidebar, which is styled by the generic
+   "bartlett-column" class */
     float: left;
     width: 65.957%;
-  }
-  .bartlett-content-container .bartlett-content-column1 {
-    width: 51.613%;
-  }
-  .bartlett-content-container .bartlett-content-column2 {
-    width: 48.387%;
+    .bartlett-content-column1 {
+      width: 51.613%;
+    }
+    .bartlett-content-column2 {
+      width: 48.387%;
+    }
   }
 
   .bartlett-content-column2-inner {

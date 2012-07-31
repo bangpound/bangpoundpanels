@@ -2,11 +2,14 @@
  * @file
  * OA Sanderson panel layout
 **/
+
+@import "../base";
+
 .sanderson-container {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
   .sanderson-column-content-region {
     width: 51.064%;
     float: left;

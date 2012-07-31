@@ -2,11 +2,14 @@
  * @file
  * OA bryant panel layout
 **/
+
+@import "../base";
+
 .bryant-container {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
   .bryant-sidebar {
     width: 23.404%;
     float: left;

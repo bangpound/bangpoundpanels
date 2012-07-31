@@ -2,11 +2,15 @@
  * @file
  * OA Brown panel layout
 **/
+
+@import "../base";
+
 .brown-container {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
+
   .brown-slider {
     float: left;
     width: 68.085%;
@@ -37,4 +41,5 @@
   .brown-column3-inner, .brown-footer-column3-inner {
     margin-right: 0;
   }
+
 }

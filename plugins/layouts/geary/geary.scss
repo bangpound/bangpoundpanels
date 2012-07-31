@@ -2,11 +2,14 @@
  * @file
  * OA Geary panel layout
 **/
+
+@import "../base";
+
 .geary-container {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
   .geary-column-content-region {
     width: 34.043%;
     float: left;

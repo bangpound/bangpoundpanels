@@ -2,11 +2,14 @@
  * @file
  * OA Burr panel layout
 **/
+
+@import "../base";
+
 .burr-flipped-container {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
   .burr-flipped-sidebar {
     width: 31.915%;
     float: left;
