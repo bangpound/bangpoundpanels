@@ -177,18 +177,19 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
     // Add specific style options
     $form['style_settings']['view_mode'] = array(
       '#type' => 'radios',
+      '#title' => t('View mode'),
       '#options' => _bangpoundpanels_view_mode_options(),
-      '#default_value' => $conf['view_mode'] ? $conf['view_mode'] : 'teaser',
+      '#default_value' => isset($conf['view_mode']) ? $conf['view_mode'] : 'teaser',
     );
     $form['style_settings']['links'] = array(
       '#type' => 'checkbox',
       '#title' => t('Display links'),
-      '#default_value' => $conf['links'] ? $conf['links'] : TRUE,
+      '#default_value' => isset($conf['links']) ? $conf['links'] : TRUE,
     );
     $form['style_settings']['comments'] = array(
       '#type' => 'checkbox',
       '#title' => t('Display comments'),
-      '#default_value' => $conf['comments'] ? $conf['comments'] : FALSE,
+      '#default_value' => isset($conf['comments']) ? $conf['comments'] : FALSE,
     );
 
   }
