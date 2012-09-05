@@ -1,7 +1,7 @@
 #!/bin/sh
 
-IMPORT="-I /Library/Ruby/Gems/1.8/gems/breakpoint-1.2/stylesheets"
-REQUIRE="-r /Library/Ruby/Gems/1.8/gems/breakpoint-1.2/lib/breakpoint.rb"
+IMPORT="-I /Library/Ruby/Gems/1.8/gems/breakpoint-1.3/stylesheets -I /Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets"
+REQUIRE="-r /Library/Ruby/Gems/1.8/gems/breakpoint-1.3/lib/breakpoint.rb -r /Library/Ruby/Gems/1.8/gems/zen-grids-1.2/lib/zen-grids.rb"
 
 sass --compass $IMPORT $REQUIRE --update -t expanded -f bartlett:bartlett
 sass --compass $IMPORT $REQUIRE --update -t expanded -f bartlett_flipped:bartlett_flipped
