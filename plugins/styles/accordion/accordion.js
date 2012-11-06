@@ -8,7 +8,7 @@
   Drupal.behaviors.PanelsAccordionStyle = {
     attach: function (context, settings) {
       $.each(settings.accordion, function (index) {
-        $(index).accordion(this);
+        $(index, context).once().accordion(this);
       });
     }
   };

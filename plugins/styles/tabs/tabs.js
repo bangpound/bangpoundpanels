@@ -10,7 +10,7 @@
       $.each(settings.panelsTabs, function (index) {
         var $tabs = $(index, context).prepend('<ul></ul>').tabs(this);
 
-        $('.panel-pane', $tabs).each(function (index) {
+        $('.panel-pane', $tabs).once('panelsTabs', function (index) {
           var href = '#' + $(this).attr('id'),
             label = $(this).attr('title');
           $tabs.tabs('add', href, label, index);
