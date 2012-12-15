@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implement hook_contextual_links_view_alter().
+ * Implements hook_contextual_links_view_alter().
  */
 function bangpoundpanels_contextual_links_view_alter(&$element, &$items) {
 
@@ -16,7 +16,7 @@ function bangpoundpanels_contextual_links_view_alter(&$element, &$items) {
 }
 
 /**
- * Implement hook_page_alter().
+ * Implements hook_page_alter().
  *
  * Clumsy way to add contextual links to default panelizer display settings, etc.
  */
@@ -27,7 +27,7 @@ function bangpoundpanels_page_alter(&$page) {
     if (in_array('node', $current['contexts'][$context]->type)) {
       $content_type = $current['contexts'][$context]->data->type;
       $links = &$page['content']['system_main']['contextual_links']['#links'];
-  
+
       $links['default_settings'] = array(
         'title' => 'Edit default panelizer settings',
         'href' => 'admin/config/content/panelizer/node/'. $content_type .'/settings',
@@ -53,7 +53,7 @@ function bangpoundpanels_page_alter(&$page) {
 }
 
 /**
- * Implement hook_schema_alter().
+ * Implements hook_schema_alter().
  */
 function bangpoundpanels_schema_alter(&$schema) {
   if (module_exists('panels')) {
@@ -64,14 +64,14 @@ function bangpoundpanels_schema_alter(&$schema) {
 }
 
 /**
- * Implementation of hook_ctools_plugin_directory()
+ * Implements hook_ctools_plugin_directory()
  */
 function bangpoundpanels_ctools_plugin_directory($module, $plugin) {
   return 'plugins/' . $plugin;
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function bangpoundpanels_menu() {
   $items = array();
@@ -87,11 +87,11 @@ function bangpoundpanels_menu() {
 }
 
 /**
- * Implementation of hook_form_FORM_ID_alter()
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Provides customization to panel pane style form
  */
-function bangpoundpanels_form_panels_edit_style_type_form_alter(&$form, $form_state) {
-
-  // Add customization to panel pane style form
+function bangpoundpanels_form_panels_edit_style_type_form_alter(&$form, &$form_state, $form_id) {
 
   // Unset options for which we have no need
   unset($form['style']['#options']['block']);
@@ -103,9 +103,11 @@ function bangpoundpanels_form_panels_edit_style_type_form_alter(&$form, $form_st
 
 /**
  * Implementation of hook_form_FORM_ID_alter()
+ *
+ * Provides customizations to the views content type settings form
  */
-function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_alter(&$form, $form_state) {
-  // Add customization to panel pane settings form
+function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_alter(&$form, &$form_state, $form_id) {
+
   // Get the configuration
   $conf = $form_state['conf'];
 
@@ -244,7 +246,7 @@ function bangpoundpanels_views_view_mode_pane_submit(&$form, &$form_state) {
 }
 
 /**
- * Implementation of hook_views_pre_render()
+ * Implements hook_views_pre_render()
  */
 function bangpoundpanels_views_pre_render(&$view) {
   if (isset($view->display_handler->options['pane_conf'])) {
@@ -304,7 +306,7 @@ function bangpoundpanels_autocomplete_content($node_type, $string) {
 }
 
 /**
- * Implement hook_panels_pre_render().
+ * Implements hook_panels_pre_render().
  *
  * Force style settings on panes in regions whose style has a 'pane style'.
  */
