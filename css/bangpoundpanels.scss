@@ -1,0 +1,428 @@
+/**
+ * Panopoly Modal Magic Styles
+ */
+
+/**
+ * Styles for Menu Block Pane
+ */
+
+.menu-block-processed {
+  border: 0;
+}
+
+@media only screen and (max-width: 480px) {
+  /* Hide IPE from mobile, since it doesn't really work anyway */
+  #panels-ipe-control-container {
+    display: none !important;
+  }
+}
+
+/**
+ * Custom styling for Changing Layout Feature
+*/
+
+div.ctools-modal-content div.form-item-categories label {
+  float: left;
+  font-weight: normal;
+  margin-top: 2px;
+  margin-right: 5px;
+  width: auto;
+}
+
+#panels-layout-category-Panopoly {
+  margin: 3% 6%;
+}
+
+div {
+  &.ctools-modal-content .panels-choose-layout .dependent-options {
+    padding-left: 0px;
+  }
+  &.modal-content-preview-button {
+    padding-top: 100px;
+    text-align: center;
+  }
+}
+
+#panels-layout-category-Panopoly-wrapper {
+  .panels-layouts-category {
+    display: none;
+  }
+  .layout-link {
+    div {
+      display: none;
+    }
+    float: left;
+    height: 68px;
+    padding: 1.25em;
+    text-align: center;
+    width: 68px;
+    &:hover {
+      background-color: #BBB;
+    }
+  }
+  .current-layout {
+    background-color: #DDD;
+  }
+}
+
+/**
+ * Custom styling for exposed views filter options
+ */
+
+#modal-content {
+  .form-item-offset, .form-item-items-per-page, .form-item-sort-order, .form-item-sort-by {
+    float: left;
+    width: 175px;
+  }
+  .form-item-offset {
+    clear: none;
+  }
+  .form-item-sort-order {
+    clear: none;
+    label {
+      float: left;
+      font-weight: normal;
+      margin-right: 5px;
+      width: auto;
+      margin-top: 3px;
+      font-size: 100%;
+    }
+  }
+  .form-item-sort-by label {
+    float: left;
+    font-weight: normal;
+    margin-right: 5px;
+    width: auto;
+    margin-top: 3px;
+    font-size: 100%;
+  }
+  .form-item-exposed-pager-id label {
+    font-weight: normal;
+  }
+  .general-settings-fieldset label {
+    float: left;
+    font-weight: normal;
+    width: auto;
+    margin-top: 5px;
+    margin-right: 5px;
+  }
+  #edit-context label {
+    float: left;
+    font-weight: normal;
+    width: auto;
+    margin-top: 2px;
+    margin-right: 5px;
+  }
+  #views-exposed-pane div.form-item {
+    display: inline;
+  }
+  .form-item-view-settings {
+    display: inline;
+    margin-left: 5px;
+  }
+  .form-item-header-type {
+    label {
+      display: inline;
+      clear: none;
+      font-weight: normal;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    select {
+      display: inline;
+      margin-left: 5px;
+      margin-top: 5px;
+    }
+  }
+  .view-settings-wrapper {
+    .field-prefix {
+      padding-right: 5px;
+    }
+    .form-radios {
+      display: inline;
+      padding-right: 5px;
+    }
+  }
+}
+
+/* Handle the Header Type Setting Element */
+
+/**
+ * Custom Stylizer CSS
+ */
+
+#ctools_stylizer_color_scheme_form {
+  float: none;
+  #palette .form-item {
+    width: auto;
+    padding: .5em .75em;
+  }
+}
+
+div.ctools-modal-content #ctools_stylizer_color_scheme_form .form-item label {
+  width: auto;
+}
+
+#ctools_stylizer_color_scheme_form #palette .form-item label {
+  float: left;
+  margin-right: 10px;
+  margin-top: .25em;
+}
+/**
+ * Modal stylings
+ */
+
+#modal-content {
+  input.form-text {
+    max-width: 98%;
+    /* Handle fixed width form elements in the IPE */
+  }
+  .form-item-exposed-widget-title input, .form-item-title input {
+    font-size: 1.5em;
+  }
+}
+
+#modalContent {
+  div.ctools-modal-content {
+    border: none;
+    .modal-header {
+    }
+    .modal-title {
+    }
+    a.close {
+      &:hover {
+      }
+    }
+  }
+  .panels-add-content-modal {
+    a.panels-modal-add-category {
+      &:active, &.active {
+      }
+    }
+  }
+  .panels-section-column-categories .content-type-button {
+    div {
+      a {
+      }
+      &:active {
+      }
+    }
+    img {
+    }
+  }
+  div.ctools-modal-content .modal-content {
+  }
+}
+
+#modal-content {
+  .option-text-aligner {
+    float: left;
+    width: auto;
+  }
+  fieldset {
+    clear: none;
+    width: auto;
+    position: relative;
+    top: 12px;
+    /* Offsets the negative margin of legends */
+    margin-top: 10px;
+    margin-bottom: 32px;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 0 0 10px;
+    &.widget-preview {
+      margin-top: 3em;
+      margin-bottom: 4em;
+    }
+    &.widget-preview-single {
+      margin-top: 0em;
+      margin-bottom: 1em;
+      .fieldset-wrapper {
+        font-size: 100%;
+        max-width: 100%;
+        overflow-y: auto;
+        min-height: 75px;
+        max-height: 375px;
+        .panopoly-spotlight img {
+          width: 100%;
+        }
+      }
+    }
+    legend {
+      background: #dbdbdb;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      color: #3b3b3b;
+      display: block;
+      height: 2em;
+      left: -1px;
+      /* LTR */
+      line-height: 2;
+      padding: 1px 0 0;
+      position: absolute;
+      text-indent: 10px;
+      text-shadow: 0 1px 0 #fff;
+      top: -12px;
+      width: 100%;
+    }
+    &.widget-preview legend {
+    }
+  }
+  .fieldset-legend {
+    font: bold 12px / 1.5em "Open Sans", "Lucida Sans", "Lucida Grande", verdana sans-serif;
+  }
+  fieldset {
+    &.collapsed legend {
+    }
+    legend a {
+      color: #3b3b3b;
+      &:hover, &:focus, &:active {
+        color: #000;
+      }
+    }
+  }
+  .fieldset-wrapper {
+    padding: 0 10px;
+    margin-top: 2.25em;
+  }
+  .widget-preview .fieldset-wrapper {
+    max-width: 100%;
+    overflow-y: auto;
+    max-height: 200px;
+    min-height: 200px;
+    overflow-x: hidden;
+    table tr {
+      &.even td, &.odd td {
+        padding: 3px 5px;
+      }
+    }
+    h2 {
+      font-size: 150%;
+      margin-top: .25em;
+    }
+  }
+  .widget-preview-single {
+    float: right;
+    margin-left: 1em;
+    margin-top: 0;
+    width: 48%;
+  }
+  .form-actions {
+    float: right;
+    clear: right;
+    width: 48%;
+    margin-left: 1em;
+    text-align: right;
+  }
+  .widget-preview-title {
+    position: absolute;
+    right: -1px;
+    top: -24px;
+    font: bold 11px / 23px "Open Sans", "Lucida Sans", "Lucida Grande", verdana sans-serif;
+    .content-type-button div {
+      float: none;
+      left: 0;
+      top: 0;
+      width: 60px;
+      padding: 0;
+      a {
+        display: block;
+        font: bold 11px / 23px "Open Sans", "Lucida Sans", "Lucida Grande", verdana sans-serif;
+        color: #fff;
+        text-decoration: none;
+        background: #5DE000;
+        padding: 0 10px;
+        &:hover {
+          background: #56CE00;
+        }
+        &:active {
+          background: #5DE000;
+        }
+      }
+    }
+  }
+  .panels-section-columns {
+    overflow: visible;
+    height: 100%;
+    overflow-y: auto;
+  }
+  .panels-categories-description {
+    overflow: visible;
+    height: 100%;
+    margin: 0;
+    overflow-y: auto;
+  }
+  .form-type-textarea .form-type-select, .field-type-text-long .form-type-select {
+    float: right;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .form-type-textarea .form-type-select label, .field-type-text-long .form-type-select label {
+    float: left;
+    margin-right: .5em;
+    margin-top: .5em;
+    font-weight: normal;
+    display: block;
+    width: auto;
+  }
+  .view-settings-wrapper .form-radios {
+    display: inline;
+    padding-right: 5px;
+  }
+}
+
+/**
+ * Pane configuration preview styling
+ *
+ * Much of the fieldset-related css is ripped directly from Bartik to give
+ * IPE a more consistent look
+ * @see https://drupal.org/node/1717644
+ */
+
+/**
+ * Misc Modal Stylings
+ */
+
+.panels-section-column .content-type-button {
+  font-size: 1em;
+}
+
+#modal-content {
+  .widget-preview-title .content-type-button img, .panels-add-content-modal > .panels-modal-add-category {
+    display: none;
+  }
+  #edit-widget-preview {
+    margin-top: 0;
+  }
+}
+
+#modalContent .panels-section-column-categories .content-type-button img:hover {
+  border: none;
+}
+
+#modal-content .widget-preview {
+  .fieldset-wrapper table img, .panopoly-image-featured {
+    width: 100%;
+  }
+}
+
+.pane-content .create-links, .pane-categories .categories-links, .pane-menus .menu-links, .pane-users .user-links {
+  float: right;
+}
+
+#modalContent {
+  .panels-add-content-modal a.panels-modal-add-category:hover, .panels-section-column-categories .content-type-button div:hover {
+    background: #E6E6E6;
+  }
+}
+
+/**
+ * Form action button styling
+ */
+
+#modal-content .form-submit {
+  &:hover {
+  }
+  &:active {
+  }
+}
