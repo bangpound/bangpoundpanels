@@ -4,4 +4,6 @@ package = Custom
 description = custom module hosted at https://github.com/bangpound/bangpoundpanels
 php = 5.2.4
 dependencies[] = panels
+dependencies[] = page_manager
+dependencies[] = panels_ipe
 stylesheets[all][] = css/bangpoundpanels.css
