@@ -21,33 +21,35 @@ function bangpoundpanels_contextual_links_view_alter(&$element, &$items) {
  * Clumsy way to add contextual links to default panelizer display settings, etc.
  */
 function bangpoundpanels_page_alter(&$page) {
-  $current = page_manager_get_current_page();
-  if ($current && $current['handler']->handler == 'panelizer_node') {
-    $context = $current['handler']->conf['context'];
-    if (in_array('node', $current['contexts'][$context]->type)) {
-      $content_type = $current['contexts'][$context]->data->type;
-      $links = &$page['content']['system_main']['contextual_links']['#links'];
+  if (module_exists('panelizer')) {
+    $current = page_manager_get_current_page();
+    if ($current && $current['handler']->handler == 'panelizer_node') {
+      $context = $current['handler']->conf['context'];
+      if (in_array('node', $current['contexts'][$context]->type)) {
+        $content_type = $current['contexts'][$context]->data->type;
+        $links = &$page['content']['system_main']['contextual_links']['#links'];
 
-      $links['default_settings'] = array(
-        'title' => 'Edit default panelizer settings',
-        'href' => 'admin/config/content/panelizer/node/'. $content_type .'/settings',
-        'query' => drupal_get_destination(),
-      );
-      $links['default_context'] = array(
-        'title' => 'Edit default panelizer context',
-        'href' => 'admin/config/content/panelizer/node/'. $content_type .'/context',
-        'query' => drupal_get_destination(),
-      );
-      $links['default_layout'] = array(
-        'title' => 'Edit default panelizer layout',
-        'href' => 'admin/config/content/panelizer/node/'. $content_type .'/layout',
-        'query' => drupal_get_destination(),
-      );
-      $links['default_content'] = array(
-        'title' => 'Edit default panelizer content',
-        'href' => 'admin/config/content/panelizer/node/'. $content_type .'/content',
-        'query' => drupal_get_destination(),
-      );
+        $links['default_settings'] = array(
+          'title' => 'Edit default panelizer settings',
+          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/settings',
+          'query' => drupal_get_destination(),
+        );
+        $links['default_context'] = array(
+          'title' => 'Edit default panelizer context',
+          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/context',
+          'query' => drupal_get_destination(),
+        );
+        $links['default_layout'] = array(
+          'title' => 'Edit default panelizer layout',
+          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/layout',
+          'query' => drupal_get_destination(),
+        );
+        $links['default_content'] = array(
+          'title' => 'Edit default panelizer content',
+          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/content',
+          'query' => drupal_get_destination(),
+        );
+      }
     }
   }
 }
