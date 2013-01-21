@@ -900,7 +900,7 @@ function bangpoundpanels_fape_submit(&$form, &$form_state) {
     $form_state['display_cache']->display->context['panelizer']->data = $form_state['entity'];
   }
   // Otherwise we're on step 1, so just run the FAPE submitter.
-  else {
+  elseif (module_exists('fape')) {
     fape_field_edit_field_form_submit($form, $form_state);
   }
 }
