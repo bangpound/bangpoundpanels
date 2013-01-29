@@ -5,6 +5,7 @@ core = 7.x
 
 projects[ctools][version] = 1.x-dev
 projects[ctools][subdir] = contrib
+projects[ctools][patch][] = http://drupal.org/files/ctools_export_ui_form_state_reference.patch
 
 projects[panels][version] = 3.x-dev
 projects[panels][subdir] = contrib
