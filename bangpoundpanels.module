@@ -129,7 +129,7 @@ function bangpoundpanels_configure_form() {
       '2' => 'Manual',
       '0' => 'Disabled',
     ),
-    '#default_value' => variable_get('bangpoundpanels_live_preview', 1),
+    '#default_value' => variable_get('bangpoundpanels_live_preview', 0),
     '#description' => t('Do you want Panopoly to provide a live preview for modal content through the in place editor?'),
   );
 
@@ -141,7 +141,7 @@ function bangpoundpanels_configure_form() {
       '1' => t('Enabled'),
       '0' => t('Disabled'),
     ),
-    '#default_value' => variable_get('bangpoundpanels_pane_add_preview', 1),
+    '#default_value' => variable_get('bangpoundpanels_pane_add_preview', 0),
     '#description' => t('Do you want to automatically generate previews when adding existing panels panes through the IPE?'),
   );
 
@@ -173,7 +173,7 @@ function bangpoundpanels_form_alter(&$form, &$form_state, $form_id) {
     'ctools_entity_field_content_type_formatter_options',
     'ctools_entity_field_content_type_formatter_styles',
   );
-  if (variable_get('bangpoundpanels_live_preview', 1) && (strpos($form_id, '_content_type_edit_form') || in_array($form_id, $ids_to_alter))) {
+  if (variable_get('bangpoundpanels_live_preview', 0) && (strpos($form_id, '_content_type_edit_form') || in_array($form_id, $ids_to_alter))) {
 
     // Start the magic
     $pane = $form_id == 'panels_edit_style_settings_form' ? $form_state['display']->content[$form_state['pid']] : $form_state['pane'];
@@ -351,7 +351,7 @@ function bangpoundpanels_form_alter(&$form, &$form_state, $form_id) {
       );
 
       // If live previewing, don't show button, and autoupdate.
-      if (variable_get('bangpoundpanels_live_preview', 1) == 1) {
+      if (variable_get('bangpoundpanels_live_preview', 0) == 1) {
         $preview_attributes['style'] = 'display: none';
         $preview_attributes['class'][] = 'ctools-auto-submit-click';
       }
@@ -471,7 +471,7 @@ function bangpoundpanels_autosubmit_configure(&$element) {
 function bangpoundpanels_form_fieldable_panels_panes_fieldable_panels_pane_content_type_edit_form_alter(&$form, &$form_state, $form_id) {
 
   // Setup the live preview
-  if (variable_get('bangpoundpanels_live_preview', 1)) {
+  if (variable_get('bangpoundpanels_live_preview', 0)) {
     bangpoundpanels_autosubmit_configure($form);
 
     // Special case exclusions for tablefield specific elements.
@@ -755,7 +755,7 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
   }
 
   // Add auto submit functionality
-  if (variable_get('bangpoundpanels_live_preview', 1)) {
+  if (variable_get('bangpoundpanels_live_preview', 0)) {
     bangpoundpanels_autosubmit_configure($form);
   }
 
@@ -839,7 +839,7 @@ function bangpoundpanels_form_ctools_entity_field_content_type_formatter_options
   }
 
   // Enable auto submit functionality
-  if (variable_get('bangpoundpanels_live_preview', 1)) {
+  if (variable_get('bangpoundpanels_live_preview', 0)) {
     bangpoundpanels_autosubmit_configure($form);
   }
 
@@ -962,7 +962,7 @@ function bangpoundpanels_form_panels_edit_style_type_form_alter(&$form, &$form_s
  */
 function bangpoundpanels_form_ctools_stylizer_edit_style_form_default_alter(&$form, &$form_state, $form_id) {
   // If Auto-submit is enabled.
-  if (variable_get('bangpoundpanels_live_preview', 1)) {
+  if (variable_get('bangpoundpanels_live_preview', 0)) {
 
     // Customize the settings preview button.
     $form['top box']['preview']['submit']['#attributes'] = array(
@@ -1283,7 +1283,7 @@ function bangpoundpanels_preprocess_panels_add_content_modal(&$vars) {
   // Generate the pane preview
   if (!empty($vars['categories'][$vars['category']]['content'])) {
     foreach ($vars['categories'][$vars['category']]['content'] as &$plugin) {
-      $use_preview = variable_get('bangpoundpanels_pane_add_preview', 1);
+      $use_preview = variable_get('bangpoundpanels_pane_add_preview', 0);
       $query = drupal_get_query_parameters();
       $preview_panes = (!empty($query['preview_panes'])) ? explode(',', $query['preview_panes']) : array();
 
