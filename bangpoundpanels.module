@@ -69,7 +69,9 @@ function bangpoundpanels_schema_alter(&$schema) {
  * Implements hook_ctools_plugin_directory()
  */
 function bangpoundpanels_ctools_plugin_directory($module, $plugin) {
-  return 'plugins/' . $plugin;
+  if (($module == 'ctools' && $plugin == 'content_types') || ($module == 'panels' && ($plugin == 'styles' || $plugin == 'layouts'))) {
+    return 'plugins/' . $plugin;
+  }
 }
 
 /**
