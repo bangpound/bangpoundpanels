@@ -89,9 +89,6 @@ function bangpoundpanels_theme($existing, $type, $theme, $path) {
 function bangpoundpanels_menu() {
   $items = array();
 
-  $base = array(
-  );
-
   $items['admin/structure/panels/settings/bangpoundpanels'] = array(
     'title' => '!&# Panels',
     'description' => 'Settings for !&# Panels.',
