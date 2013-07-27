@@ -1,80 +1,6 @@
 <?php
 
 /**
- * Implements hook_contextual_links_view_alter().
- */
-function bangpoundpanels_contextual_links_view_alter(&$element, &$items) {
-
-  // Add contextual link to edit mini block content.
-  if (isset($element['#element']['#block']) && $element['#element']['#block']->module == 'panels_mini' && user_access('administer mini panels')) {
-    $element['#links']['panels_mini-edit'] = array(
-      'title' => 'Edit panel',
-      'href' => 'admin/structure/mini-panels/list/'. $element['#element']['#block']->delta .'/edit/content',
-      'query' => drupal_get_destination(),
-    );
-  }
-}
-
-/**
- * Implements hook_page_alter().
- *
- * Clumsy way to add contextual links to default panelizer display settings, etc.
- */
-function bangpoundpanels_page_alter(&$page) {
-  if (module_exists('panelizer')) {
-    $current = page_manager_get_current_page();
-    if ($current && $current['handler']->handler == 'panelizer_node') {
-      $context = $current['handler']->conf['context'];
-      if (in_array('node', $current['contexts'][$context]->type)) {
-        $content_type = $current['contexts'][$context]->data->type;
-        $links = &$page['content']['system_main']['contextual_links']['#links'];
-
-        $links['default_settings'] = array(
-          'title' => 'Edit default panelizer settings',
-          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/settings',
-          'query' => drupal_get_destination(),
-        );
-        $links['default_context'] = array(
-          'title' => 'Edit default panelizer context',
-          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/context',
-          'query' => drupal_get_destination(),
-        );
-        $links['default_layout'] = array(
-          'title' => 'Edit default panelizer layout',
-          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/layout',
-          'query' => drupal_get_destination(),
-        );
-        $links['default_content'] = array(
-          'title' => 'Edit default panelizer content',
-          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/content',
-          'query' => drupal_get_destination(),
-        );
-      }
-    }
-  }
-}
-
-/**
- * Implements hook_schema_alter().
- */
-function bangpoundpanels_schema_alter(&$schema) {
-  if (module_exists('panels')) {
-    // Set default styles to naked.
-    $schema['panels_display']['fields']['panel_settings']['object default']['style'] = variable_get('bangpoundpanels_display_default_style', 'naked');
-    $schema['panels_pane']['fields']['style']['object default']['style'] = variable_get('bangpoundpanels_pane_default_style', 'naked');
-  }
-}
-
-/**
- * Implements hook_ctools_plugin_directory()
- */
-function bangpoundpanels_ctools_plugin_directory($module, $plugin) {
-  if (($module == 'ctools' && $plugin == 'content_types') || ($module == 'panels' && ($plugin == 'styles' || $plugin == 'layouts'))) {
-    return 'plugins/' . $plugin;
-  }
-}
-
-/**
  * Implements hook_theme().
  */
 function bangpoundpanels_theme($existing, $type, $theme, $path) {
@@ -83,24 +9,6 @@ function bangpoundpanels_theme($existing, $type, $theme, $path) {
       'render element' => 'form',
     ),
   );
-}
-
-/**
- * Implements hook_menu().
- */
-function bangpoundpanels_menu() {
-  $items = array();
-
-  $items['admin/structure/panels/settings/bangpoundpanels'] = array(
-    'title' => '!&# Panels',
-    'description' => 'Settings for !&# Panels.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('bangpoundpanels_configure_form'),
-    'access arguments' => array('use panels dashboard'),
-    'type' => MENU_LOCAL_TASK,
-  );
-
-  return $items;
 }
 
 /**
@@ -1391,5 +1299,97 @@ function bangpoundpanels_panels_pre_render($display, $renderer) {
         $display->content[$pane_id]->style['style'] = $style['pane style'];
       }
     }
+  }
+}
+
+/**
+ * Implements hook_contextual_links_view_alter().
+ */
+function bangpoundpanels_contextual_links_view_alter(&$element, &$items) {
+
+  // Add contextual link to edit mini block content.
+  if (isset($element['#element']['#block']) && $element['#element']['#block']->module == 'panels_mini' && user_access('administer mini panels')) {
+    $element['#links']['panels_mini-edit'] = array(
+      'title' => 'Edit panel',
+      'href' => 'admin/structure/mini-panels/list/'. $element['#element']['#block']->delta .'/edit/content',
+      'query' => drupal_get_destination(),
+    );
+  }
+}
+
+/**
+ * Implements hook_page_alter().
+ *
+ * Clumsy way to add contextual links to default panelizer display settings, etc.
+ */
+function bangpoundpanels_page_alter(&$page) {
+  if (module_exists('panelizer')) {
+    $current = page_manager_get_current_page();
+    if ($current && $current['handler']->handler == 'panelizer_node') {
+      $context = $current['handler']->conf['context'];
+      if (in_array('node', $current['contexts'][$context]->type)) {
+        $content_type = $current['contexts'][$context]->data->type;
+        $links = &$page['content']['system_main']['contextual_links']['#links'];
+
+        $links['default_settings'] = array(
+          'title' => 'Edit default panelizer settings',
+          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/settings',
+          'query' => drupal_get_destination(),
+        );
+        $links['default_context'] = array(
+          'title' => 'Edit default panelizer context',
+          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/context',
+          'query' => drupal_get_destination(),
+        );
+        $links['default_layout'] = array(
+          'title' => 'Edit default panelizer layout',
+          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/layout',
+          'query' => drupal_get_destination(),
+        );
+        $links['default_content'] = array(
+          'title' => 'Edit default panelizer content',
+          'href' => 'admin/config/content/panelizer/node/'. $content_type .'/content',
+          'query' => drupal_get_destination(),
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_schema_alter().
+ */
+function bangpoundpanels_schema_alter(&$schema) {
+  if (module_exists('panels')) {
+    // Set default styles to naked.
+    $schema['panels_display']['fields']['panel_settings']['object default']['style'] = variable_get('bangpoundpanels_display_default_style', 'naked');
+    $schema['panels_pane']['fields']['style']['object default']['style'] = variable_get('bangpoundpanels_pane_default_style', 'naked');
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function bangpoundpanels_menu() {
+  $items = array();
+
+  $items['admin/structure/panels/settings/bangpoundpanels'] = array(
+    'title' => '!&# Panels',
+    'description' => 'Settings for !&# Panels.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bangpoundpanels_configure_form'),
+    'access arguments' => array('use panels dashboard'),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory()
+ */
+function bangpoundpanels_ctools_plugin_directory($module, $plugin) {
+  if (($module == 'ctools' && $plugin == 'content_types') || ($module == 'panels' && ($plugin == 'styles' || $plugin == 'layouts'))) {
+    return 'plugins/' . $plugin;
   }
 }
