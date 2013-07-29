@@ -1,16 +1,19 @@
 /**
  * @file
- * OA Selby Flipped panel layout
+ * Selby Flipped panel layout
 **/
 
 @import "../base";
 
-.selby-flipped-container, .selby-flipped-content-header, .selby-flipped-content-container-column-container {
+.selby-flipped-container,
+.selby-flipped-content-header,
+.selby-flipped-content-container-column-container {
   margin-bottom: 1em;
 }
 
 @include breakpoint($breakpoint-iphone-width) {
   .selby-flipped-column {
+    min-height: 1px;
     width: 34.043%;
     float: left;
   }
@@ -23,9 +26,9 @@
     margin-right: 0;
   }
 
-  .selby-flipped-content-container {
-                                   /* This is floated to the left of the sidebar,
-  which is styled by the generic "selby-flipped-column" class */
+  .selby-flipped-content-container { /* This is floated to the left of the sidebar,
+    which is styled by the generic "selby-flipped-column" class */
+    min-height: 1px;
     float: left;
     width: 68.085%;
   }

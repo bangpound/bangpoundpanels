@@ -2,23 +2,24 @@
  * @file
  * Taylor Flipped panel layout
 **/
+
+@import "../base";
+
 .taylor-flipped-container {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
   .taylor-flipped-half {
     min-height: 1px;
-    width: 48.936%;
-    /* 460 / 940 = 48.936% */
+    width: 48.936%; /* 460 / 940 = 48.936% */
     float: left;
   }
 
   .taylor-flipped-quarter1,
   .taylor-flipped-quarter2 {
     min-height: 1px;
-    width: 25.532%;
-    /* 240 / 940 = 25.532% */
+    width: 25.532%; /* 240 / 940 = 25.532% */
     float: left;
   }
 

@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Sanderson panel layout
+ * Sanderson panel layout
 **/
 
 @import "../base";
@@ -11,6 +11,7 @@
 
 @include breakpoint($breakpoint-iphone-width) {
   .sanderson-column-content-region {
+    min-height: 1px;
     width: 51.064%;
     float: left;
   }
@@ -24,6 +25,7 @@
   }
 
   .sanderson-secondary-column-content-region {
+    min-height: 1px;
     width: 34.043%;
     float: left;
   }

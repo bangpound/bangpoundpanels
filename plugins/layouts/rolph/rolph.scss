@@ -2,15 +2,17 @@
  * @file
  * Rolph panel layout
 **/
+
+@import "../base";
+
 .rolph-container {
   margin-bottom: 1em;
 }
 
-@media (min-width: 480px) {
+@include breakpoint($breakpoint-iphone-width) {
   .rolph-quarter {
     min-height: 1px;
-    width: 25.532%;
-    /* 240 / 940 = 25.532% */
+    width: 25.532%; /* 240 / 940 = 25.532% */
     float: left;
   }
 
@@ -19,8 +21,7 @@
   }
 
   .rolph-quarter4 {
-    width: 23.404%;
-    /* 220 / 940 = 23.404% */
+    width: 23.404%; /* 220 / 940 = 23.404% */
   }
 
   .rolph-quarter4-inner {

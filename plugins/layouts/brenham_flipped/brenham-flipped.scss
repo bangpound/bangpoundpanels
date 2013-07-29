@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Brenham Flipped panel layout
+ * Brenham Flipped panel layout
 **/
 
 @import "../base";
@@ -11,6 +11,7 @@
 
 @include breakpoint($breakpoint-iphone-width) {
   .brenham-flipped-sidebar {
+    min-height: 1px;
     width: 31.915%;
     float: left;
   }

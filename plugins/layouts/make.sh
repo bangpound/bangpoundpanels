@@ -1,7 +1,7 @@
 #!/bin/sh
 
-IMPORT="-I /Library/Ruby/Gems/1.8/gems/breakpoint-1.3/stylesheets -I /Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets"
-REQUIRE="-r /Library/Ruby/Gems/1.8/gems/breakpoint-1.3/lib/breakpoint.rb -r /Library/Ruby/Gems/1.8/gems/zen-grids-1.2/lib/zen-grids.rb"
+IMPORT="-I /Users/bjd/.rvm/gems/ruby-1.9.3-p392/gems/breakpoint-2.0.5/stylesheets -I /Users/bjd/.rvm/gems/ruby-1.9.3-p392/gems/zen-grids-1.4/stylesheets"
+REQUIRE="-r /Users/bjd/.rvm/gems/ruby-1.9.3-p392/gems/breakpoint-2.0.5/lib/breakpoint.rb -r /Users/bjd/.rvm/gems/ruby-1.9.3-p392/gems/zen-grids-1.4/lib/zen-grids.rb"
 
 sass --compass $IMPORT $REQUIRE --update -t expanded -f bartlett:bartlett
 sass --compass $IMPORT $REQUIRE --update -t expanded -f bartlett_flipped:bartlett_flipped
@@ -22,10 +22,15 @@ sass --compass $IMPORT $REQUIRE --update -t expanded -f moscone:moscone
 sass --compass $IMPORT $REQUIRE --update -t expanded -f moscone_flipped:moscone_flipped
 sass --compass $IMPORT $REQUIRE --update -t expanded -f phelan:phelan
 sass --compass $IMPORT $REQUIRE --update -t expanded -f pond:pond
+sass --compass $IMPORT $REQUIRE --update -t expanded -f rolph:rolph
 sass --compass $IMPORT $REQUIRE --update -t expanded -f sanderson:sanderson
 sass --compass $IMPORT $REQUIRE --update -t expanded -f sanderson_flipped:sanderson_flipped
 sass --compass $IMPORT $REQUIRE --update -t expanded -f selby:selby
 sass --compass $IMPORT $REQUIRE --update -t expanded -f selby_flipped:selby_flipped
 sass --compass $IMPORT $REQUIRE --update -t expanded -f sutro:sutro
+sass --compass $IMPORT $REQUIRE --update -t expanded -f sutro_double:sutro_double
+sass --compass $IMPORT $REQUIRE --update -t expanded -f taylor:taylor
+sass --compass $IMPORT $REQUIRE --update -t expanded -f taylor_flipped:taylor_flipped
+sass --compass $IMPORT $REQUIRE --update -t expanded -f webb:webb
 sass --compass $IMPORT $REQUIRE --update -t expanded -f webb_flipped:webb_flipped
 sass --compass $IMPORT $REQUIRE --update -t expanded -f whelan:whelan

@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Moscone panel layout
+ * Moscone panel layout
 **/
 
 @import "../base";
@@ -11,6 +11,7 @@
 
 @include breakpoint($breakpoint-iphone-width) {
   .moscone-sidebar {
+    min-height: 1px;
     width: 34.043%;
     float: left;
   }
@@ -20,6 +21,7 @@
   }
 
   .moscone-content {
+    min-height: 1px;
     width: 65.957%;
     float: left;
   }

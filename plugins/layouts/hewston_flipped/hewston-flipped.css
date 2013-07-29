@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Hewston panel layout
+ * Hewston Flipped panel layout
 **/
 .hewston-flipped-container {
   margin-bottom: 1em;
@@ -8,11 +8,13 @@
 
 @media (min-width: 480px) {
   .hewston-flipped-slider {
+    min-height: 1px;
     float: left;
     width: 65.957%;
   }
 
   .hewston-flipped-slider-gutter {
+    min-height: 1px;
     float: left;
     width: 34.043%;
   }
@@ -22,6 +24,7 @@
   }
 
   .hewston-flipped-middle-region {
+    min-height: 1px;
     width: 34.043%;
     float: left;
   }

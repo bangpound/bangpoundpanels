@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Brenham panel layout
+ * Brenham panel layout
 **/
 .brenham-container {
   margin-bottom: 1em;
@@ -8,6 +8,7 @@
 
 @media (min-width: 480px) {
   .brenham-sidebar {
+    min-height: 1px;
     width: 34.043%;
     float: left;
   }

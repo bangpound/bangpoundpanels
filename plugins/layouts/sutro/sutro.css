@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Sutro panel layout
+ * Sutro panel layout
 **/
 .sutro-container {
   margin-bottom: 1em;
@@ -8,6 +8,7 @@
 
 @media (min-width: 480px) {
   .sutro-column {
+    min-height: 1px;
     width: 51.064%;
     float: left;
   }

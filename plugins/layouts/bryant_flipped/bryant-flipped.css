@@ -1,6 +1,6 @@
 /**
  * @file
- * OA bryant panel layout
+ * Bryant Flipped panel layout
 **/
 .bryant-flipped-container {
   margin-bottom: 1em;
@@ -8,11 +8,13 @@
 
 @media (min-width: 480px) {
   .bryant-flipped-sidebar {
+    min-height: 1px;
     width: 21.277%;
     float: left;
   }
 
   .bryant-flipped-content {
+    min-height: 1px;
     float: left;
     width: 78.723%;
   }

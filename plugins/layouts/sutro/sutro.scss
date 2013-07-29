@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Sutro panel layout
+ * Sutro panel layout
 **/
 
 @import "../base";
@@ -11,6 +11,7 @@
 
 @include breakpoint($breakpoint-iphone-width) {
   .sutro-column {
+    min-height: 1px;
     width: 51.064%;
     float: left;
   }

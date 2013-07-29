@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Brown panel layout
+ * Brown panel layout
 **/
 
 @import "../base";
@@ -25,20 +25,24 @@
     width: 31.915%;
   }
 
-  .brown-middle-region, .brown-footer-region {
+  .brown-middle-region,
+  .brown-footer-region {
     width: 34.043%;
     float: left;
   }
 
-  .brown-middle-region-inner, .brown-footer-region-inner {
+  .brown-middle-region-inner,
+  .brown-footer-region-inner {
     margin-right: 20px;
   }
 
-  .brown-column3, .brown-footer-column3 {
+  .brown-column3,
+  .brown-footer-column3 {
     width: 31.915%;
   }
 
-  .brown-column3-inner, .brown-footer-column3-inner {
+  .brown-column3-inner,
+  .brown-footer-column3-inner {
     margin-right: 0;
   }
 

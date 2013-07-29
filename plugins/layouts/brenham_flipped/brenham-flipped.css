@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Brenham Flipped panel layout
+ * Brenham Flipped panel layout
 **/
 .brenham-flipped-container {
   margin-bottom: 1em;
@@ -8,6 +8,7 @@
 
 @media (min-width: 480px) {
   .brenham-flipped-sidebar {
+    min-height: 1px;
     width: 31.915%;
     float: left;
   }

@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Whelan panel layout
+ * Whelan panel layout
 **/
 
 @import "../base";
@@ -11,6 +11,7 @@
 
 @include breakpoint($breakpoint-iphone-width) {
   .whelan-column-content-region {
+    min-height: 1px;
     width: 25.532%;
     float: left;
   }

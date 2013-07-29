@@ -1,8 +1,9 @@
 /**
  * @file
- * OA Bartlett panel layout
- **/
-.bartlett-container, .bartlett-content-header {
+ * Bartlett panel layout
+**/
+.bartlett-container,
+.bartlett-content-header {
   margin-bottom: 1em;
 }
 

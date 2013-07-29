@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Burr panel layout
+ * Burr panel layout
 **/
 
 @import "../base";
@@ -11,6 +11,7 @@
 
 @include breakpoint($breakpoint-iphone-width) {
   .burr-sidebar {
+    min-height: 1px;
     width: 34.043%;
     float: left;
   }

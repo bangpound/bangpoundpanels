@@ -1,26 +1,30 @@
 /**
  * @file
- * Phelan panel layout
+ * Sutro Double panel layout
 **/
 
 @import "../base";
 
-.phelan-container {
+.sutro-double-container {
   margin-bottom: 1em;
 }
 
 @include breakpoint($breakpoint-iphone-width) {
-  .phelan-column {
+  .sutro-double-column {
     min-height: 1px;
     width: 51.064%;
     float: left;
   }
 
-  .phelan-column1-inner {
+  .sutro-double-column-inner {
     margin-right: 20px;
   }
 
-  .phelan-column2 {
+  .sutro-double-column2 {
     width: 48.936%;
+  }
+
+  .sutro-double-column2-inner {
+    margin-right: 0;
   }
 }

@@ -1,13 +1,16 @@
 /**
  * @file
- * OA Selby panel layout
+ * Selby panel layout
 **/
-.selby-container, .selby-content-header, .selby-content-container-column-container {
+.selby-container,
+.selby-content-header,
+.selby-content-container-column-container {
   margin-bottom: 1em;
 }
 
 @media (min-width: 480px) {
   .selby-column {
+    min-height: 1px;
     width: 34.043%;
     float: left;
   }
@@ -21,8 +24,9 @@
   }
 
   .selby-content-container {
-                         /* This is floated to the left of the sidebar,
+                           /* This is floated to the left of the sidebar,
 which is styled by the generic "selby-column" class */
+    min-height: 1px;
     float: left;
     width: 65.957%;
   }

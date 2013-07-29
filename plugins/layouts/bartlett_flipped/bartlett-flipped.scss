@@ -1,11 +1,12 @@
 /**
  * @file
- * OA Bartlett Flipped panel layout
+ * Bartlett Flipped panel layout
 **/
 
 @import "../base";
 
-.bartlett-flipped-container, .bartlett-flipped-content-header {
+.bartlett-flipped-container,
+.bartlett-flipped-content-header {
   margin-bottom: 1em;
 }
 
@@ -19,7 +20,8 @@
     margin-right: 20px;
   }
 
-  .bartlett-flipped-content-column2-inner, .bartlett-flipped-sidebar-inner {
+  .bartlett-flipped-content-column2-inner,
+  .bartlett-flipped-sidebar-inner {
     margin-right: 0;
   }
 
@@ -27,8 +29,7 @@
     width: 31.915%;
   }
 
-  .bartlett-flipped-content-container {
-                                      /* This is floated to the left of the sidebar,
+  .bartlett-flipped-content-container { /* This is floated to the left of the sidebar,
   which is styled by the generic "bartlett-flipped-column" class */
     float: left;
     width: 68.085%;

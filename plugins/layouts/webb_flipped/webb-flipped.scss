@@ -1,16 +1,18 @@
 /**
  * @file
- * OA Webb Flipped panel layout
+ * Webb Flipped panel layout
 **/
 
 @import "../base";
 
-.webb-flipped-container, .webb-flipped-content-header {
+.webb-flipped-container,
+.webb-flipped-content-header {
   margin-bottom: 1em;
 }
 
 @include breakpoint($breakpoint-iphone-width) {
   .webb-flipped-column {
+    min-height: 1px;
     width: 31.915%;
     float: left;
   }
@@ -19,13 +21,14 @@
     margin-right: 20px;
   }
 
-  .webb-flipped-content-column2-inner, .webb-flipped-sidebar-inner {
+  .webb-flipped-content-column2-inner,
+  .webb-flipped-sidebar-inner {
     margin-right: 0;
   }
 
-  .webb-flipped-content-container {
-                                  /* This is floated to the left of the sidebar,
-  which is styled by the generic "webb-flipped-column" class */
+  .webb-flipped-content-container { /* This is floated to the left of the sidebar,
+    which is styled by the generic "webb-flipped-column" class */
+    min-height: 1px;
     float: left;
     width: 68.085%;
   }

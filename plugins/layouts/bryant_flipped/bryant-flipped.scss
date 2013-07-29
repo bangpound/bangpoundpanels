@@ -1,6 +1,6 @@
 /**
  * @file
- * OA bryant panel layout
+ * Bryant Flipped panel layout
 **/
 
 @import "../base";
@@ -11,11 +11,13 @@
 
 @include breakpoint($breakpoint-iphone-width) {
   .bryant-flipped-sidebar {
+    min-height: 1px;
     width: 21.277%;
     float: left;
   }
 
   .bryant-flipped-content {
+    min-height: 1px;
     float: left;
     width: 78.723%;
   }

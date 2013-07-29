@@ -1,6 +1,6 @@
 /**
  * @file
- * OA Pond panel layout
+ * Pond panel layout
 **/
 
 @import "../base";
@@ -12,6 +12,7 @@
 @include breakpoint($breakpoint-iphone-width) {
 
   .pond-column {
+    min-height: 1px;
     width: 34.043%;
     float: left;
   }
@@ -20,7 +21,9 @@
     margin-right: 20px;
   }
 
-  .pond-column3, .pond-secondary-column3 {
+  .pond-column3,
+  .pond-secondary-column3 {
+    min-height: 1px;
     width: 31.915%;
     margin-right: 0;
   }
