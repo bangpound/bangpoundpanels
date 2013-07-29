@@ -1,6 +1,6 @@
 name = !&# Panels
 core = 7.x
-package = Custom
+package = !&#
 description = custom module hosted at https://github.com/bangpound/bangpoundpanels
 php = 5.2.4
 dependencies[] = panels
