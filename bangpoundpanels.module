@@ -291,7 +291,6 @@ function bangpoundpanels_form_alter(&$form, &$form_state, $form_id) {
       $form['buttons']['preview'] = array(
         '#type' => 'button',
         '#value' => t('Update Preview'),
-        '#wizard type' => 'next',
         '#attributes' => $preview_attributes,
       );
 
@@ -301,7 +300,7 @@ function bangpoundpanels_form_alter(&$form, &$form_state, $form_id) {
     }
   }
 
-   /**
+  /**
    * Globally improve the buttons for the Chaos Tools Content Type Settings Forms
    */
   if (strpos($form_id, 'content_type_edit_form') || $form_id == 'ctools_entity_field_content_type_formatter_options') {
@@ -482,6 +481,7 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
         ),
       ),
       '#default_value' => (isset($conf['widget_title'])) ? $conf['widget_title'] : $form_state['view']->display_handler->options['title'],
+      '#parents' => array('widget_title'),
     );
   }
 
@@ -491,6 +491,7 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
     $form['link_to_view']['#description'] =  '';
     $form['link_to_view']['#id'] = 'edit-link';
     $form['exposed']['link_to_view'] = $form['link_to_view'];
+    $form['exposed']['link_to_view']['#parents'] = array('link_to_view');
     unset($form['link_to_view']);
   }
 
@@ -499,6 +500,7 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
     $form['more_link']['#id'] = 'more-link';
     $form['more_link']['#description'] = '';
     $form['exposed']['more_link'] = $form['more_link'];
+    $form['exposed']['more_link']['#parents'] = array('more_link');
     unset($form['more_link']);
   }
 
@@ -507,7 +509,9 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
   if (!empty($form['use_pager']) && !empty($form['pager_id'])) {
     $form['use_pager']['#prefix'] = '<div class="form-item container-inline">';
     $form['exposed']['use_pager'] = $form['use_pager'];
+    $form['exposed']['use_pager']['#parents'] = array('use_pager');
     $form['exposed']['pager_id'] = $form['pager_id'];
+    $form['exposed']['pager_id']['#parents'] = array('pager_id');
     unset($form['use_pager']);
     unset($form['pager_id']);
   }
@@ -518,6 +522,7 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
     $form['path']['#title'] = '';
     $form['path']['#dependency'] = array('edit-link' => array(1), 'more-link' => array(1), 'use-pager-checkbox' => array(1));
     $form['exposed']['path'] = $form['path'];
+    $form['exposed']['path']['#parents'] = array('path');
     unset($form['path']);
   }
 
@@ -531,7 +536,8 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
     $form['offset']['#field_prefix'] = t('Items to Skip');
     $form['offset']['#title'] = '';
     $form['offset']['#description'] = t('Enter 0 to skip none.');
-    $form['offset']['#suffix'] = '<div class="clearfix"></div>';
+    $form['offset']['#prefix'] = '<div class="clearfix">';
+    $form['offset']['#suffix'] = '</div>';
     $form['display_settings']['offset'] = $form['offset'];
     unset($form['offset']);
   }
@@ -539,7 +545,8 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
     $form['items_per_page']['#field_prefix'] = t('Items to Show');
     $form['items_per_page']['#title'] = '';
     $form['items_per_page']['#description'] = t('Enter 0 to display all.');
-    $form['items_per_page']['#suffix'] = '<div class="clearfix"></div>';
+    $form['items_per_page']['#prefix'] = '<div class="clearfix">';
+    $form['items_per_page']['#suffix'] = '</div>';
     $form['display_settings']['items_per_page'] = $form['items_per_page'];
     unset($form['items_per_page']);
   }
@@ -547,7 +554,8 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
     $form['offset']['#field_prefix'] = t('Items to Skip');
     $form['offset']['#title'] = '';
     $form['offset']['#description'] = t('Enter 0 to skip none.');
-    $form['offset']['#suffix'] = '<div class="clearfix"></div>';
+    $form['offset']['#prefix'] = '<div class="clearfix">';
+    $form['offset']['#suffix'] = '</div>';
     $form['display_settings']['offset'] = $form['offset'];
     unset($form['offset']);
   }
@@ -556,20 +564,27 @@ function bangpoundpanels_form_views_content_views_panes_content_type_edit_form_a
   if (!empty($form['exposed']['sort_order']) && !empty($form['exposed']['sort_by'])) {
     $form['exposed']['sort_order']['#title'] = t('Sort order');
     $form['display_settings']['sort_order'] = $form['exposed']['sort_order'];
+    $form['display_settings']['sort_order']['#parents'] = array('exposed', 'sort_order');
     unset($form['exposed']['sort_order']);
-    $form['exposed']['sort_by']['#suffix'] = '<div class="clearfix"></div>';
+    $form['exposed']['sort_by']['#prefix'] = '<div class="clearfix">';
+    $form['exposed']['sort_by']['#suffix'] = '</div>';
     $form['display_settings']['sort_by'] = $form['exposed']['sort_by'];
+    $form['display_settings']['sort_by']['#parents'] = array('exposed', 'sort_by');
     unset($form['exposed']['sort_by']);
   }
   elseif (!empty($form['exposed']['sort_order']) && empty($form['exposed']['sort_by'])) {
     $form['exposed']['sort_order']['#title'] = t('Sort order');
-    $form['exposed']['']['#suffix'] = '<div class="clearfix"></div>';
+    $form['exposed']['#prefix'] = '<div class="clearfix">';
+    $form['exposed']['#suffix'] = '</div>';
     $form['display_settings']['sort_order'] = $form['exposed']['sort_order'];
+    $form['display_settings']['sort_order']['#parents'] = array('exposed', 'sort_order');
     unset($form['exposed']['sort_order']);
   }
   elseif (empty($form['exposed']['sort_order']) && !empty($form['exposed']['sort_by'])) {
-    $form['exposed']['sort_by']['#suffix'] = '<div class="clearfix"></div>';
+    $form['exposed']['sort_by']['#prefix'] = '<div class="clearfix">';
+    $form['exposed']['sort_by']['#suffix'] = '</div>';
     $form['display_settings']['sort_by'] = $form['exposed']['sort_by'];
+    $form['display_settings']['sort_by']['#parents'] = array('exposed', 'sort_by');
     unset($form['exposed']['sort_by']);
   }
 
