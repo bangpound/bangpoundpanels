@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * The accordian style plugin that is part of !&# Panels
+ */
+
 // Plugin definition
 $plugin = array(
   'title' => t('Accordion style'),
@@ -9,6 +14,7 @@ $plugin = array(
   'pane style' => 'accordion',
   'settings form' => 'bangpoundpanels_accordion_style_settings_form',
   'hook theme' => 'bangpoundpanels_accordion_theme',
+  'weight' => -15,
 );
 
 /**
@@ -27,7 +33,7 @@ function bangpoundpanels_accordion_theme(&$theme, $data) {
  */
 function template_preprocess_panels_pane__accordion(&$variables, $hook) {
 
-  $content = $variables['content'];
+  $content = clone($variables['content']);
 
   if (!empty($content->css_id)) {
     $css_id = drupal_html_id($content->css_id);
@@ -41,6 +47,7 @@ function template_preprocess_panels_pane__accordion(&$variables, $hook) {
 
   $title = $content->title;
   if (empty($content->title)) {
+    $delta = $variables['pane']->position;
     $title = t('Tab @delta', array('@delta' => $delta));
   }
   else if (!empty($content->title_link)) {
@@ -90,18 +97,27 @@ function theme_bangpoundpanels_accordion_style_render_region($vars) {
 
   if (empty($display->css_id) ) {
     $region_id = drupal_html_id('accordion-panels-' . $region_id);
-  } else {
+  }
+  else {
     $region_id = drupal_html_id('accordion-' . $display->css_id);
   }
 
+  // Display the Output
   $output = '';
   $output .= '<div id="'. $region_id .'">';
   $output .= implode($panes);
   $output .= '</div>';
 
+  // Handle the Empty Placeholder Panels IPE Needs
+  if (!empty($panes['empty_placeholder'])) {
+    $output .= $panes['empty_placeholder'];
+  }
+
+  // Extend settings for jQuery UI accordion.
   $settings['header'] = '.pane-title';
   $settings['active'] = (int) $settings['active'];
 
+  // Inject the Javascript
   drupal_add_library('system', 'ui.accordion');
   drupal_add_js(drupal_get_path('module', 'bangpoundpanels') .'/plugins/styles/accordion/accordion.js');
   drupal_add_js(array('accordion' => array('#'. $region_id => $settings)), 'setting');
@@ -138,20 +154,20 @@ function bangpoundpanels_accordion_style_settings_form($style_settings) {
   $form['event'] = array(
     '#type' => 'select',
     '#title' => t('The event on which to trigger the accordion.'),
-    '#options' => array('click' => t('On click'),'mouseover' => t('On mouse over')),
+    '#options' => array('click' => t('On click'), 'mouseover' => t('On mouse over')),
     '#default_value' => (isset($style_settings['event'])) ? $style_settings['event'] : 'click',
   );
   $form['fillSpace'] = array(
     '#type' => 'checkbox',
     '#title' => t('If set, the accordion completely fills the height of the parent element. Overrides autoheight.'),
-    '#return_value' => true,
-    '#default_value' => (isset($style_settings['event'])) ? $style_settings['event'] : false,
+    '#return_value' => TRUE,
+    '#default_value' => (isset($style_settings['event'])) ? $style_settings['event'] : FALSE,
   );
   $form['navigation'] = array(
     '#type' => 'checkbox',
     '#title' => t('If set, looks for the anchor that matches location.href and activates it. Great for href-based state-saving. Use navigationFilter to implement your own matcher..'),
-    '#return_value' => true,
-    '#default_value' => (isset($style_settings['navigation'])) ? $style_settings['navigation'] : false,
+    '#return_value' => TRUE,
+    '#default_value' => (isset($style_settings['navigation'])) ? $style_settings['navigation'] : FALSE,
   );
 
   return $form;

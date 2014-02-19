@@ -6,6 +6,15 @@
    * JS related to the tabs in the Panels tabs.
    */
   Drupal.behaviors.panelsTabs = {
+    addTab: function ($tabs, href, label, index) {
+      var tabTemplate = "<li><a href='#{href}'>#{label}</a></li>",
+        li = $( tabTemplate.replace( /#\{href\}/g, href ).replace( /#\{label\}/g, label ) ),
+        tabContentHtml = $(href);
+
+      $tabs.find( ".ui-tabs-nav" ).append( li );
+      $tabs.append( tabContentHtml );
+      $tabs.tabs( "refresh" );
+    },
     attach: function (context, settings) {
       $.each(settings.panelsTabs, function (index) {
         var $tabs = $(index, context).prepend('<ul></ul>').tabs(this);
@@ -13,8 +22,10 @@
         $('.panel-pane', $tabs).once('panelsTabs', function (index) {
           var href = '#' + $(this).attr('id'),
             label = $(this).attr('title');
-          $tabs.tabs('add', href, label, index);
+          Drupal.behaviors.panelsTabs.addTab($tabs, href, label, index);
         });
+
+        $tabs.tabs('option', 'active', 0);
       });
     }
   };
