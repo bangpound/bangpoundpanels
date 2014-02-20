@@ -8,12 +8,12 @@
   Drupal.behaviors.panelsTabs = {
     addTab: function ($tabs, href, label, index) {
       var tabTemplate = "<li><a href='#{href}'>#{label}</a></li>",
-        li = $( tabTemplate.replace( /#\{href\}/g, href ).replace( /#\{label\}/g, label ) ),
+        li = $(tabTemplate.replace(/#\{href\}/g, href).replace(/#\{label\}/g, label)),
         tabContentHtml = $(href);
 
-      $tabs.find( ".ui-tabs-nav" ).append( li );
-      $tabs.append( tabContentHtml );
-      $tabs.tabs( "refresh" );
+      $tabs.find('.ui-tabs-nav').append(li);
+      $tabs.append(tabContentHtml);
+      $tabs.tabs('refresh');
     },
     attach: function (context, settings) {
       $.each(settings.panelsTabs, function (index) {
