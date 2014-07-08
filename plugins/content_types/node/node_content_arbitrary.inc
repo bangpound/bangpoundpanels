@@ -89,14 +89,14 @@ function bangpoundpanels_node_content_arbitrary_content_type_edit_form($form, &$
     '#type' => 'textfield',
     '#default_value' => $conf['identifier'],
     '#title' => t('Identifier'),
-    '#description' => t('Whatever is placed here will appear in @identifier, to help theme node links displayed on the panel', array('@identifier' => $node->panel_identifier)),
+    '#description' => t('Whatever is placed here will appear in @identifier, to help theme node content displayed on the panel', array('@identifier' => $node->panel_identifier)),
   );
 
   $form['property_path'] = array(
     '#type' => 'textfield',
     '#default_value' => $conf['property_path'],
     '#title' => t('Property path'),
-    '#description' => t('Whatever is placed here will appear in @identifier, to help theme node links displayed on the panel', array('@identifier' => $node->panel_identifier)),
+    '#description' => t('A property path for an element on the node. For example, use <em>content</em> or <em>content[links]</em>. See the <a href="http://symfony.com/doc/current/components/property_access/introduction.html">Symfony documentation for the property access component</a> for more advice.'),
   );
 
   return $form;
