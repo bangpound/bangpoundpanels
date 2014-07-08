@@ -110,6 +110,6 @@ function bangpoundpanels_node_content_arbitrary_content_type_edit_form_submit($f
 }
 
 function bangpoundpanels_node_content_arbitrary_content_type_admin_title($subtype, $conf, $context) {
-  return t('"@s" links', array('@s' => $context->identifier));
+  return t('"@s" property @p', array('@s' => $context->identifier, '@p' => $conf['property_path']));
 }
 
