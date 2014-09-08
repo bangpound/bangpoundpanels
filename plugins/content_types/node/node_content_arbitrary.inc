@@ -89,7 +89,7 @@ function bangpoundpanels_node_content_arbitrary_content_type_edit_form($form, &$
     '#type' => 'textfield',
     '#default_value' => $conf['identifier'],
     '#title' => t('Identifier'),
-    '#description' => t('Whatever is placed here will appear in @identifier, to help theme node content displayed on the panel', array('@identifier' => $node->panel_identifier)),
+    '#description' => t('Whatever is placed here will appear in @identifier, to help theme node content displayed on the panel', array('@identifier' => isset($node->panel_identifier) ? $node->panel_identifier : 'identifier')),
   );
 
   $form['property_path'] = array(
