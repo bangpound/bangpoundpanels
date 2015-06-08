@@ -4,12 +4,9 @@
 This module takes excellent work from [Panopoly](http://drupal.org/project/panopoly) and
 combines it into a single optional module. (Please forgive my anti-social behavior)
 
-* Pane previews
 * Override view mode of node rows in view content panes.
 * UI improvements for pane settings: grouping of fields, relabeling, autocomplete filter
   on node titles.
-* Use view modes in entity template suggestions.
-* All of Panopoly's layout plugins.
 * jQuery UI Accordion, jQuery UI Tabs and Drupal 7 Vertical Tab region style plugins.
 * Contextual links to edit an entity's fields and its view mode display settings.
 * No markup is default on all new panel displays and panes.
