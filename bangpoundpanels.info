@@ -5,4 +5,3 @@ description = custom module hosted at https://github.com/bangpound/bangpoundpane
 php = 5.2.4
 dependencies[] = panels
 dependencies[] = page_manager
-dependencies[] = composer_manager
